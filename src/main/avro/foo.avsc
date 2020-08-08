@@ -1,0 +1,15 @@
+{
+  "namespace": "tutorialspoint.com",
+  "type": "record",
+  "name": "emp",
+  "fields": [
+    {
+      "name": "foo",
+      "type": "string"
+    },
+    {
+      "name": "bar",
+      "type": "string"
+    }
+  ]
+}
