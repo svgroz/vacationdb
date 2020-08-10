@@ -1,22 +1,32 @@
 plugins {
     id 'java'
-    id 'antlr'
+}
+
+allprojects {
+    group 'org.svgroz.vacationdb'
+    version '1.0-SNAPSHOT'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    plugins.withType(JavaPlugin) {
+        dependencies {
+            testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+        }
+
+        test {
+            useJUnitPlatform()
+//            testLogging {
+//                events "passed", "skipped", "failed"
+//            }
+        }
+    }
 
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // https://mvnrepository.com/artifact/org.apache.avro/avro
-    implementation group: 'org.apache.avro', name: 'avro', version: '1.10.0'
-    implementation group: 'org.apache.avro', name: 'avro-tools', version: '1.10.0'
-
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    antlr "org.antlr:antlr4:4.8"
-}

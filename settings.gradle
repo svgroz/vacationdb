@@ -1,2 +1,6 @@
 rootProject.name = 'vacationdb'
+include 'core'
+include 'grammar'
+include 'grammar-antlr4'
+include 'datastore'
 

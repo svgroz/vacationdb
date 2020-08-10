@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+    id 'antlr'
+}
+
+dependencies {
+    implementation project(':grammar')
+    implementation project(':datastore')
+
+    antlr "org.antlr:antlr4:4.8"
+}
