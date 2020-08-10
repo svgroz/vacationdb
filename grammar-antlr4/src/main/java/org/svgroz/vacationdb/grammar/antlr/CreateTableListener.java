@@ -38,6 +38,7 @@ public class CreateTableListener extends VQLBaseListener {
                 break;
             case "STRING":
                 columnType = ColumnType.STRING;
+                break;
             default:
                 throw new UnsupportedColumnType(rawColumnType);
         }
