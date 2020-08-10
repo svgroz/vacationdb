@@ -1,18 +1,18 @@
-plugins {
-    id 'java'
-}
-
 allprojects {
     group 'org.svgroz.vacationdb'
     version '1.0-SNAPSHOT'
 
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
     java {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    repositories {
-        mavenCentral()
     }
 
     plugins.withType(JavaPlugin) {
@@ -22,11 +22,9 @@ allprojects {
 
         test {
             useJUnitPlatform()
-//            testLogging {
-//                events "passed", "skipped", "failed"
-//            }
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
         }
     }
-
 }
-

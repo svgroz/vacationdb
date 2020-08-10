@@ -3,4 +3,5 @@ include 'core'
 include 'grammar'
 include 'grammar-antlr4'
 include 'datastore'
+include 'datastore-avro'
 
