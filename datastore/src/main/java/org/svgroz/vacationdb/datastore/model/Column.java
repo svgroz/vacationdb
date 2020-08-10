@@ -1,4 +1,4 @@
-package org.svgroz.vacationdb.datastore;
+package org.svgroz.vacationdb.datastore.model;
 
 import java.util.Objects;
 

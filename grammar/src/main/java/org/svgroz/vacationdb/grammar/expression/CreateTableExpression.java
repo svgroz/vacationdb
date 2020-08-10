@@ -1,6 +1,6 @@
 package org.svgroz.vacationdb.grammar.expression;
 
-import org.svgroz.vacationdb.datastore.Table;
+import org.svgroz.vacationdb.datastore.model.Table;
 
 import java.util.Objects;
 

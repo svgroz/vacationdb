@@ -13,6 +13,6 @@ create_table: create_table_name create_table_columns ';' EOF;
 
 expression: create_table;
 
-COLUMN_TYPE: 'INT' | 'STRING';
+COLUMN_TYPE: 'BOOLEAN' | 'LONG' | 'DOUBLE' | 'STRING';
 ID: [A-Z]+;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
