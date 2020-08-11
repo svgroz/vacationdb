@@ -28,22 +28,16 @@ public class RowComparator implements Comparator<Row> {
             throw new EmptyCellsException();
         }
 
-        int result = 0;
         for (int i = 0; i < first.getCells().size(); i++) {
-            Cell cellFromFirstRow = firstColumns.get(i);
-            Cell cellFromSecondRow = secondColumns.get(i);
+            Cell cellFromTheFirstRow = firstColumns.get(i);
+            Cell cellFromTheSecondRow = secondColumns.get(i);
 
-            result = result + compareCells(cellFromFirstRow, cellFromSecondRow);
+            int result = cellFromTheFirstRow.compareTo(cellFromTheSecondRow);
             if (result != 0) {
                 return result;
             }
         }
 
-        return result;
-    }
-
-    @SuppressWarnings("rawtypes unchecked")
-    private int compareCells(Cell first, Cell second) {
-        return first.compareTo(second);
+        return 0;
     }
 }

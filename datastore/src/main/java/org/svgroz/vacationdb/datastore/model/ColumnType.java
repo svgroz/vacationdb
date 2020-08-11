@@ -6,10 +6,16 @@ import java.util.Objects;
  * That class represents available types of data
  */
 public enum ColumnType {
-    BOOLEAN,
-    LONG,
-    DOUBLE,
-    STRING;
+    BOOLEAN(Boolean.class),
+    LONG(Long.class),
+    DOUBLE(Double.class),
+    STRING(String.class);
+
+    private final Class<?> clazz;
+
+    ColumnType(Class<?> clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * @param type  {@link ColumnType} cannot be null
@@ -19,23 +25,7 @@ public enum ColumnType {
      */
     public static boolean valueHasValidType(ColumnType type, Object value) throws NullPointerException {
         Objects.requireNonNull(type, "type is null");
-
-        if (value == null) {
-            return true;
-        }
-
-        switch (type) {
-            case BOOLEAN:
-                return value instanceof Boolean;
-            case LONG:
-                return value instanceof Long;
-            case DOUBLE:
-                return value instanceof Double;
-            case STRING:
-                return value instanceof String;
-            default:
-                return false;
-        }
+        return type.clazz.isInstance(value);
     }
 
     /**

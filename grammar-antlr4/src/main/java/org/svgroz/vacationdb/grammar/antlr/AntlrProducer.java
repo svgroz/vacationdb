@@ -26,8 +26,6 @@ public class AntlrProducer implements Producer {
         parser.addParseListener(createTableListener);
         parser.create_table().enterRule(createTableListener);
 
-
-
         return createTableListener.getCreateTableExpression();
     }
 }
