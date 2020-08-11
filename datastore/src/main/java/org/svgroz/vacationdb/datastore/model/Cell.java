@@ -4,10 +4,21 @@ import org.svgroz.vacationdb.datastore.exception.ColumnTypeValueTypeMismatch;
 
 import java.util.Objects;
 
+/**
+ * That class is null safety, thread safety, and immutable.
+ * @param <T> optional parameter for typed columns
+ */
 public class Cell<T> {
     private final ColumnType type;
     private final T value;
 
+    /**
+     * Default constructor
+     * @param type cannot be null
+     * @param value can be null
+     * @throws NullPointerException if type is null
+     * @throws ColumnTypeValueTypeMismatch if value type has mismatch with column type
+     */
     public Cell(final ColumnType type, final T value) throws ColumnTypeValueTypeMismatch {
         this.type = Objects.requireNonNull(type, "type is null");
         if (value == null) {

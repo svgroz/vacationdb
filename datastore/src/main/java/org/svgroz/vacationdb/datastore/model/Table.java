@@ -1,6 +1,6 @@
 package org.svgroz.vacationdb.datastore.model;
 
-import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 
 import java.util.List;
@@ -10,14 +10,20 @@ public class Table {
     private final String name;
     private final List<Column> columns;
 
-    public Table(String name, List<Column> columns) {
+    public Table(final String name, final List<Column> columns) {
         this.name = Objects.requireNonNull(name, "name is null");
-        this.columns = List.copyOf(
-                Objects.requireNonNull(columns, "columns is null")
-        );
+
+        Objects.requireNonNull(columns, "columns is null");
+
         if (columns.isEmpty()) {
             throw new EmptyColumnsException();
         }
+
+        if (columns.stream().anyMatch(Objects::isNull)) {
+            throw new ColumnsContainsNullException();
+        }
+
+        this.columns = List.copyOf(columns);
     }
 
     public String getName() {
