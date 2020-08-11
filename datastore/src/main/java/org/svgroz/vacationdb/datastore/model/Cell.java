@@ -1,6 +1,8 @@
 package org.svgroz.vacationdb.datastore.model;
 
 import org.svgroz.vacationdb.datastore.exception.ColumnTypeValueTypeMismatch;
+import org.svgroz.vacationdb.datastore.exception.DifferentCellsTypesException;
+import org.svgroz.vacationdb.datastore.exception.UnsupportedColumnType;
 
 import java.util.Objects;
 
@@ -9,7 +11,7 @@ import java.util.Objects;
  *
  * @param <T> optional parameter for typed columns
  */
-public class Cell<T> {
+public class Cell<T> implements Comparable<Cell<T>> {
     private final ColumnType type;
     private final T value;
 
@@ -29,6 +31,41 @@ public class Cell<T> {
             this.value = value;
         } else {
             throw new ColumnTypeValueTypeMismatch(type, value);
+        }
+    }
+
+    @Override
+    public int compareTo(final Cell<T> target) {
+        Objects.requireNonNull(target, "target is null");
+        if (this.type != target.type) {
+            throw new DifferentCellsTypesException(this, target);
+        }
+
+        T targetValue = target.getValue();
+
+        if (this.value == null && targetValue == null) {
+            return 0;
+        }
+
+        if (this.value == null) {
+            return -1;
+        }
+
+        if (targetValue == null) {
+            return 1;
+        }
+
+        switch (this.type) {
+            case BOOLEAN:
+                return ((Boolean) this.value).compareTo((Boolean) targetValue);
+            case LONG:
+                return ((Long) this.value).compareTo((Long) targetValue);
+            case DOUBLE:
+                return ((Double) this.value).compareTo((Double) targetValue);
+            case STRING:
+                return ((String)this.value).compareTo((String) targetValue);
+            default:
+                throw new UnsupportedColumnType(this.type);
         }
     }
 
