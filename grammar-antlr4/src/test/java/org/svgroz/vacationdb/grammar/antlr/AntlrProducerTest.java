@@ -17,8 +17,8 @@ class AntlrProducerTest {
         GeneralExpression expression = antlrProducer.produce("CREATE TABLE FOO (LONG BAR);");
 
         Assertions.assertNotNull(expression);
-        Assertions.assertEquals(expression.getType(), ExpressionType.CREATE_TABLE);
-        Assertions.assertEquals(expression.getClass(), CreateTableExpression.class);
+        Assertions.assertEquals(ExpressionType.CREATE_TABLE, expression.getType());
+        Assertions.assertEquals(CreateTableExpression.class, expression.getClass());
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 
@@ -55,8 +55,8 @@ class AntlrProducerTest {
         );
 
         Assertions.assertNotNull(expression);
-        Assertions.assertEquals(expression.getType(), ExpressionType.CREATE_TABLE);
-        Assertions.assertEquals(expression.getClass(), CreateTableExpression.class);
+        Assertions.assertEquals(ExpressionType.CREATE_TABLE, expression.getType());
+        Assertions.assertEquals(CreateTableExpression.class, expression.getClass());
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 
@@ -108,8 +108,8 @@ class AntlrProducerTest {
         );
 
         Assertions.assertNotNull(expression);
-        Assertions.assertEquals(expression.getType(), ExpressionType.CREATE_TABLE);
-        Assertions.assertEquals(expression.getClass(), CreateTableExpression.class);
+        Assertions.assertEquals(ExpressionType.CREATE_TABLE, expression.getType());
+        Assertions.assertEquals(CreateTableExpression.class, expression.getClass());
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 

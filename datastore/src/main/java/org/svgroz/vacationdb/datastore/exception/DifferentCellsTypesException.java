@@ -1,11 +1,10 @@
 package org.svgroz.vacationdb.datastore.exception;
 
 import org.svgroz.vacationdb.datastore.model.Cell;
-import org.svgroz.vacationdb.datastore.model.Column;
 
 public class DifferentCellsTypesException extends DataStoreException {
-    private final Cell<?> first;
-    private final Cell<?> second;
+    private transient final Cell first;
+    private transient final Cell second;
 
     public DifferentCellsTypesException(final Cell first, final Cell second) {
         this.first = first;

@@ -14,14 +14,14 @@ class RowTest {
     void rowArgumentValidationPositive() {
         Assertions.assertDoesNotThrow(() -> new Row(
                         List.of(
-                                new Cell<>(ColumnType.BOOLEAN, true)
+                                new Cell(ColumnType.BOOLEAN, true)
                         )
                 )
         );
         Assertions.assertDoesNotThrow(() -> new Row(
                         List.of(
-                                new Cell<>(ColumnType.BOOLEAN, true),
-                                new Cell<>(ColumnType.BOOLEAN, null)
+                                new Cell(ColumnType.BOOLEAN, true),
+                                new Cell(ColumnType.BOOLEAN, null)
                         )
                 )
         );
@@ -33,9 +33,9 @@ class RowTest {
         Assertions.assertThrows(EmptyCellsException.class, () -> new Row(Collections.emptyList()));
         Assertions.assertThrows(CellsContainsNullException.class, () -> new Row(
                 Arrays.asList(
-                        new Cell<>(ColumnType.BOOLEAN, true),
+                        new Cell(ColumnType.BOOLEAN, true),
                         null,
-                        new Cell<>(ColumnType.BOOLEAN, null)
+                        new Cell(ColumnType.BOOLEAN, null)
                 )
         ));
     }

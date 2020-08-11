@@ -8,12 +8,10 @@ import java.util.Objects;
 
 /**
  * That class is null safety, thread safety, and immutable.
- *
- * @param <T> optional parameter for typed columns
  */
-public class Cell<T> implements Comparable<Cell<T>> {
+public class Cell implements Comparable<Cell> {
     private final ColumnType type;
-    private final T value;
+    private final Object value;
 
     /**
      * Default constructor
@@ -23,7 +21,7 @@ public class Cell<T> implements Comparable<Cell<T>> {
      * @throws NullPointerException        if type is null
      * @throws ColumnTypeValueTypeMismatch if value type has mismatch with column type
      */
-    public Cell(final ColumnType type, final T value) throws ColumnTypeValueTypeMismatch {
+    public Cell(final ColumnType type, final Object value) throws ColumnTypeValueTypeMismatch {
         this.type = Objects.requireNonNull(type, "type is null");
         if (value == null) {
             this.value = null;
@@ -35,13 +33,13 @@ public class Cell<T> implements Comparable<Cell<T>> {
     }
 
     @Override
-    public int compareTo(final Cell<T> target) {
+    public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
         if (this.type != target.type) {
             throw new DifferentCellsTypesException(this, target);
         }
 
-        T targetValue = target.getValue();
+        Object targetValue = target.getValue();
 
         if (this.value == null && targetValue == null) {
             return 0;
@@ -73,7 +71,7 @@ public class Cell<T> implements Comparable<Cell<T>> {
         return type;
     }
 
-    public T getValue() {
+    public Object getValue() {
         return value;
     }
 
@@ -81,7 +79,7 @@ public class Cell<T> implements Comparable<Cell<T>> {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Cell)) return false;
-        final Cell<?> cell = (Cell<?>) o;
+        final Cell cell = (Cell) o;
         return type == cell.type &&
                 Objects.equals(value, cell.value);
     }

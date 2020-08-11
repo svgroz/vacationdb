@@ -12,19 +12,26 @@ import java.util.Objects;
 
 public class SchemaProducerImpl implements SchemaProducer {
 
+    /**
+     * Method for mapping from table metadata description to avro schema
+     * @param table cannot be null
+     * @return avro schema for given table
+     * @throws NullPointerException if table is null
+     */
     @Override
-    public Schema createSchemaFromTableMetadata(Table table) {
+    public Schema createSchemaFromTableMetadata(Table table) throws NullPointerException {
         Objects.requireNonNull(table, "table is null");
 
-        String recordName = Objects.requireNonNull(table.getName(), "table.name is null");
+        final String recordName = table.getName();
 
         SchemaBuilder.FieldAssembler<Schema> fields = SchemaBuilder.record(recordName)
                 .fields();
 
-        List<Column> columns = Objects.requireNonNull(table.getColumns());
+        List<Column> columns = table.getColumns();
 
         for (Column column : columns) {
             SchemaBuilder.FieldBuilder<Schema> fieldBuilder = fields.name(column.getName());
+
             switch (column.getType()) {
                 case BOOLEAN:
                     fields = fieldBuilder.type().optional().booleanType();

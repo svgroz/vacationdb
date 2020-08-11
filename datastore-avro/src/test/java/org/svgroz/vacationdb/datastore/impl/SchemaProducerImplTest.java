@@ -1,7 +1,6 @@
 package org.svgroz.vacationdb.datastore.impl;
 
 import org.apache.avro.Schema;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.model.Column;
@@ -9,8 +8,6 @@ import org.svgroz.vacationdb.datastore.model.ColumnType;
 import org.svgroz.vacationdb.datastore.model.Table;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SchemaProducerImplTest {
 

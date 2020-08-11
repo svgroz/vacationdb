@@ -3,10 +3,10 @@ package org.svgroz.vacationdb.grammar.antlr;
 import org.svgroz.vacationdb.datastore.model.Column;
 import org.svgroz.vacationdb.datastore.model.ColumnType;
 import org.svgroz.vacationdb.datastore.model.Table;
-import org.svgroz.vacationdb.parser.VQLBaseListener;
-import org.svgroz.vacationdb.parser.VQLParser;
 import org.svgroz.vacationdb.grammar.exception.UnsupportedColumnType;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
+import org.svgroz.vacationdb.parser.VQLBaseListener;
+import org.svgroz.vacationdb.parser.VQLParser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package org.svgroz.vacationdb.datastore.exception;
 import org.svgroz.vacationdb.datastore.model.ColumnType;
 
 public class UnsupportedColumnType extends DataStoreException {
-    private final ColumnType columnType;
+    private transient final ColumnType columnType;
 
     public UnsupportedColumnType(ColumnType columnType) {
         this.columnType = columnType;

@@ -10,7 +10,7 @@ import java.util.Objects;
  * That class is null safety, thread safety, and immutable.
  */
 public class Row {
-    private final List<Cell<?>> cells;
+    private final List<Cell> cells;
 
     /**
      * @param cells cannot be null and cannot contains null values itself
@@ -18,14 +18,14 @@ public class Row {
      * @throws EmptyCellsException        if cells is empty
      * @throws CellsContainsNullException if cells contains one or more null values
      */
-    public Row(final List<Cell<?>> cells) throws NullPointerException, EmptyCellsException, CellsContainsNullException {
+    public Row(final List<Cell> cells) throws NullPointerException, EmptyCellsException, CellsContainsNullException {
         Objects.requireNonNull(cells, "cells is null");
 
         if (cells.isEmpty()) {
             throw new EmptyCellsException();
         }
 
-        for (final Cell<?> cell : cells) {
+        for (final Cell cell : cells) {
             if (cell == null) {
                 throw new CellsContainsNullException();
             }
@@ -34,7 +34,7 @@ public class Row {
         this.cells = List.copyOf(cells);
     }
 
-    public List<Cell<?>> getCells() {
+    public List<Cell> getCells() {
         return cells;
     }
 

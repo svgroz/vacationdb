@@ -3,11 +3,11 @@ package org.svgroz.vacationdb.grammar.antlr;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.svgroz.vacationdb.parser.VQLLexer;
-import org.svgroz.vacationdb.parser.VQLParser;
 import org.svgroz.vacationdb.grammar.Producer;
 import org.svgroz.vacationdb.grammar.exception.IllegalStringInputException;
 import org.svgroz.vacationdb.grammar.expression.GeneralExpression;
+import org.svgroz.vacationdb.parser.VQLLexer;
+import org.svgroz.vacationdb.parser.VQLParser;
 
 import java.util.Objects;
 

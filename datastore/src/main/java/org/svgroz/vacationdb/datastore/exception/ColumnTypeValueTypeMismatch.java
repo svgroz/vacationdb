@@ -5,8 +5,8 @@ import org.svgroz.vacationdb.datastore.model.ColumnType;
 import java.util.Objects;
 
 public class ColumnTypeValueTypeMismatch extends DataStoreException {
-    private final ColumnType columnType;
-    private final Object value;
+    private transient final ColumnType columnType;
+    private transient final Object value;
 
     public ColumnTypeValueTypeMismatch(final ColumnType columnType, final Object value) {
         this.columnType = columnType;
