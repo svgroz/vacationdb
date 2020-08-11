@@ -6,11 +6,21 @@ import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * That class is null safety, thread safety, and immutable.
+ */
 public class Table {
     private final String name;
     private final List<Column> columns;
 
-    public Table(final String name, final List<Column> columns) {
+    /**
+     * @param name    cannot be null
+     * @param columns cannot be null, empty, or contains null values
+     * @throws NullPointerException         if name or columns is null
+     * @throws EmptyColumnsException        if columns is empty
+     * @throws ColumnsContainsNullException if columns contains one or more null values
+     */
+    public Table(final String name, final List<Column> columns) throws NullPointerException, EmptyColumnsException, ColumnsContainsNullException {
         this.name = Objects.requireNonNull(name, "name is null");
 
         Objects.requireNonNull(columns, "columns is null");
@@ -19,8 +29,10 @@ public class Table {
             throw new EmptyColumnsException();
         }
 
-        if (columns.stream().anyMatch(Objects::isNull)) {
-            throw new ColumnsContainsNullException();
+        for (final Column column : columns) {
+            if (column == null) {
+                throw new ColumnsContainsNullException();
+            }
         }
 
         this.columns = List.copyOf(columns);

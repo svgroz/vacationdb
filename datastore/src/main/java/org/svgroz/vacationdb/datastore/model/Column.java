@@ -2,13 +2,20 @@ package org.svgroz.vacationdb.datastore.model;
 
 import java.util.Objects;
 
+/**
+ * That class is null safety, thread safety, and immutable.
+ */
 public class Column {
     private final String name;
     private final ColumnType type;
 
-    public Column(String name, ColumnType type) {
+    /**
+     * @param name cannot be null
+     * @param type cannot be null
+     */
+    public Column(final String name, final ColumnType type) {
         this.name = Objects.requireNonNull(name, "name is null");
-        this.type = Objects.requireNonNull(type, "type is nullsdfsdf");
+        this.type = Objects.requireNonNull(type, "type is null");
     }
 
     public String getName() {
