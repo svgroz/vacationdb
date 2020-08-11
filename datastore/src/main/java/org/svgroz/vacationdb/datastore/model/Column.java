@@ -8,7 +8,7 @@ public class Column {
 
     public Column(String name, ColumnType type) {
         this.name = Objects.requireNonNull(name, "name is null");
-        this.type = Objects.requireNonNull(type, "type is empty");
+        this.type = Objects.requireNonNull(type, "type is nullsdfsdf");
     }
 
     public String getName() {
