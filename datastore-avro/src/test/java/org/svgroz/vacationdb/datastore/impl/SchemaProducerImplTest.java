@@ -17,7 +17,7 @@ class SchemaProducerImplTest {
 
         final String tableName = "FOO";
         final String columnName = "BAR";
-        final Column column = new Column(columnName, BooleanCell.class);
+        final Column column = new Column(columnName, BooleanCell.class, true);
 
         Table table = new Table(
                 tableName,

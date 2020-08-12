@@ -1,25 +1,26 @@
 package org.svgroz.vacationdb.datastore.model;
 
-import org.svgroz.vacationdb.datastore.exception.CellsContainsNullException;
-import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
-import org.svgroz.vacationdb.datastore.exception.RowsDifferentLengthsException;
+import org.svgroz.vacationdb.datastore.exception.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
  */
 public class Row implements Comparable<Row> {
     private final List<Cell> cells;
+    private final KeyIndexesContainer keyIndexesContainer;
 
     /**
-     * @param cells cannot be null and cannot contains null values itself
-     * @throws NullPointerException       if cells is null
+     * @param cells      cannot be null and cannot contains null values itself
+     * @param keyIndexes cannot be null
+     * @throws NullPointerException       if cells or keyIndexes is null
      * @throws EmptyCellsException        if cells is empty
      * @throws CellsContainsNullException if cells contains one or more null values
      */
-    public Row(final List<Cell> cells) throws NullPointerException, EmptyCellsException, CellsContainsNullException {
+    public Row(final List<Cell> cells, final KeyIndexesContainer keyIndexes) {
         Objects.requireNonNull(cells, "cells is null");
 
         if (cells.isEmpty()) {
@@ -30,6 +31,12 @@ public class Row implements Comparable<Row> {
             if (cell == null) {
                 throw new CellsContainsNullException();
             }
+        }
+
+        this.keyIndexesContainer = Objects.requireNonNull(keyIndexes);
+
+        if (keyIndexesContainer.getMaxId() > cells.size()) {
+            throw new MaxKeyIdIsBiggerThanCellsCountException(keyIndexesContainer.getIndexes(), cells);
         }
 
         this.cells = List.copyOf(cells);
@@ -82,8 +89,9 @@ public class Row implements Comparable<Row> {
 
     @Override
     public String toString() {
-        return "Row{" +
-                "cells=" + cells +
-                '}';
+        return new StringJoiner(", ", Row.class.getSimpleName() + "[", "]")
+                .add("cells=" + cells)
+                .add("keyIndexesContainer=" + keyIndexesContainer)
+                .toString();
     }
 }

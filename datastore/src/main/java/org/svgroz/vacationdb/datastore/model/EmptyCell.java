@@ -1,5 +1,7 @@
 package org.svgroz.vacationdb.datastore.model;
 
+import java.util.StringJoiner;
+
 /**
  * Cell that represents empty values
  */
@@ -29,6 +31,7 @@ public class EmptyCell implements Cell {
 
     @Override
     public String toString() {
-        return "EmptyCell{}";
+        return new StringJoiner(", ", EmptyCell.class.getSimpleName() + "[", "]")
+                .toString();
     }
 }

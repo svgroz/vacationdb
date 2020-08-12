@@ -5,13 +5,14 @@ import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
  */
 public class Table {
     private final String name;
-    private final List<Column> columns;
+    private final TableMetadata metadata;
 
     /**
      * @param name    cannot be null
@@ -22,49 +23,36 @@ public class Table {
      */
     public Table(final String name, final List<Column> columns) {
         this.name = Objects.requireNonNull(name, "name is null");
-
-        Objects.requireNonNull(columns, "columns is null");
-
-        if (columns.isEmpty()) {
-            throw new EmptyColumnsException();
-        }
-
-        for (final Column column : columns) {
-            if (column == null) {
-                throw new ColumnsContainsNullException();
-            }
-        }
-
-        this.columns = List.copyOf(columns);
+        this.metadata = new TableMetadata(Objects.requireNonNull(columns, "columns is null"));
     }
 
     public String getName() {
         return name;
     }
 
-    public List<Column> getColumns() {
-        return columns;
+    public TableMetadata getMetadata() {
+        return metadata;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Table)) return false;
-        Table table = (Table) o;
+        final Table table = (Table) o;
         return Objects.equals(name, table.name) &&
-                Objects.equals(columns, table.columns);
+                Objects.equals(metadata, table.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, columns);
+        return Objects.hash(name, metadata);
     }
 
     @Override
     public String toString() {
-        return "Table{" +
-                "name='" + name + '\'' +
-                ", columns=" + columns +
-                '}';
+        return new StringJoiner(", ", Table.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("metadata=" + metadata)
+                .toString();
     }
 }

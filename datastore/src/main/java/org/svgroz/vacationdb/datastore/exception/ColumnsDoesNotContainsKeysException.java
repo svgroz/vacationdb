@@ -5,10 +5,10 @@ import org.svgroz.vacationdb.datastore.model.Column;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class ColumnsContainsSameNamesException extends DataStoreException {
+public class ColumnsDoesNotContainsKeysException extends DataStoreException {
     private final transient List<Column> columns;
 
-    public ColumnsContainsSameNamesException(final List<Column> columns) {
+    public ColumnsDoesNotContainsKeysException(final List<Column> columns) {
         this.columns = columns;
     }
 
@@ -18,7 +18,7 @@ public class ColumnsContainsSameNamesException extends DataStoreException {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ColumnsContainsSameNamesException.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", ColumnsDoesNotContainsKeysException.class.getSimpleName() + "[", "]")
                 .add("columns=" + columns)
                 .toString();
     }

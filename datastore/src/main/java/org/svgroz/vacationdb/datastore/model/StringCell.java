@@ -3,6 +3,7 @@ package org.svgroz.vacationdb.datastore.model;
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
@@ -56,8 +57,8 @@ public class StringCell implements TypedCell<String> {
 
     @Override
     public String toString() {
-        return "StringCell{" +
-                "value='" + value + '\'' +
-                '}';
+        return new StringJoiner(", ", StringCell.class.getSimpleName() + "[", "]")
+                .add("value='" + value + "'")
+                .toString();
     }
 }

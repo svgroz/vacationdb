@@ -1,47 +1,51 @@
 package org.svgroz.vacationdb.datastore.model;
 
-import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
-import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
-import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
+import org.svgroz.vacationdb.datastore.exception.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public class TableMetadata {
+public final class TableMetadata {
     private final List<Column> columns;
-    private final Map<String, Integer> columnsIndex;
+    private final KeyIndexesContainer keyIndexesContainer;
 
     public TableMetadata(final List<Column> columns) {
-        Objects.requireNonNull(columns);
+        Objects.requireNonNull(columns, "columns is null");
         if (columns.isEmpty()) {
             throw new EmptyColumnsException();
         }
 
-        final Map<String, Integer> columnsIndex = new HashMap<>(columns.size());
+        final List<Integer> keyIndexes = new ArrayList<>();
+        final Set<String> uniqueNames = new HashSet<>();
+
         for (int i = 0; i < columns.size(); i++) {
             Column column = columns.get(i);
-            if  (column == null) {
+            if (column == null) {
                 throw new ColumnsContainsNullException();
             }
-            if (columnsIndex.containsKey(column.getName())) {
+
+            if (!uniqueNames.add(column.getName())) {
                 throw new ColumnsContainsSameNamesException(columns);
             }
 
-            columnsIndex.put(column.getName(), i);
+            if (column.isKey()) {
+                keyIndexes.add(i);
+            }
+        }
+
+        if (keyIndexes.isEmpty()) {
+            throw new ColumnsDoesNotContainsKeysException(columns);
         }
 
         this.columns = List.copyOf(columns);
-        this.columnsIndex = Map.copyOf(columnsIndex);
+        this.keyIndexesContainer = new KeyIndexesContainer(List.copyOf(keyIndexes));
     }
 
     public List<Column> getColumns() {
         return columns;
     }
 
-    public Map<String, Integer> getColumnsIndex() {
-        return columnsIndex;
+    public KeyIndexesContainer getKeyIndexesContainer() {
+        return keyIndexesContainer;
     }
 
     @Override
@@ -50,19 +54,19 @@ public class TableMetadata {
         if (!(o instanceof TableMetadata)) return false;
         final TableMetadata that = (TableMetadata) o;
         return Objects.equals(columns, that.columns) &&
-                Objects.equals(columnsIndex, that.columnsIndex);
+                Objects.equals(keyIndexesContainer, that.keyIndexesContainer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(columns, columnsIndex);
+        return Objects.hash(columns, keyIndexesContainer);
     }
 
     @Override
     public String toString() {
-        return "TableMetadata{" +
-                "columns=" + columns +
-                ", columnsIndex=" + columnsIndex +
-                '}';
+        return new StringJoiner(", ", TableMetadata.class.getSimpleName() + "[", "]")
+                .add("columns=" + columns)
+                .add("keyIndexesContainer=" + keyIndexesContainer)
+                .toString();
     }
 }

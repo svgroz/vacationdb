@@ -29,7 +29,7 @@ public class SchemaProducerImpl implements SchemaProducer {
      * @throws NullPointerException if table is null
      */
     @Override
-    public Schema createSchemaFromTableMetadata(Table table) throws NullPointerException {
+    public Schema createSchemaFromTableMetadata(final Table table) throws NullPointerException {
         Objects.requireNonNull(table, "table is null");
 
         final String recordName = table.getName();
@@ -37,7 +37,7 @@ public class SchemaProducerImpl implements SchemaProducer {
         SchemaBuilder.FieldAssembler<Schema> fields = SchemaBuilder.record(recordName)
                 .fields();
 
-        List<Column> columns = table.getColumns();
+        List<Column> columns = table.getMetadata().getColumns();
 
         for (Column column : columns) {
             SchemaBuilder.FieldBuilder<Schema> fieldBuilder = fields.name(column.getName());

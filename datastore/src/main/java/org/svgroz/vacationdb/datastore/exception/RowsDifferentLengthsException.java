@@ -2,6 +2,8 @@ package org.svgroz.vacationdb.datastore.exception;
 
 import org.svgroz.vacationdb.datastore.model.Row;
 
+import java.util.StringJoiner;
+
 public class RowsDifferentLengthsException extends DataStoreException {
     private transient final Row first;
     private transient final Row second;
@@ -21,9 +23,9 @@ public class RowsDifferentLengthsException extends DataStoreException {
 
     @Override
     public String toString() {
-        return "RowsDifferentLengths{" +
-                "first=" + first +
-                ", second=" + second +
-                "} " + super.toString();
+        return new StringJoiner(", ", RowsDifferentLengthsException.class.getSimpleName() + "[", "]")
+                .add("first=" + first)
+                .add("second=" + second)
+                .toString();
     }
 }

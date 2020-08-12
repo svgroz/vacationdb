@@ -1,6 +1,7 @@
 package org.svgroz.vacationdb.datastore.model;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
@@ -8,14 +9,16 @@ import java.util.Objects;
 public class Column {
     private final String name;
     private final Class<? extends Cell> type;
+    private final boolean isKey;
 
     /**
      * @param name cannot be null
      * @param type cannot be null
      */
-    public Column(final String name, final Class<? extends Cell> type) {
+    public Column(final String name, final Class<? extends Cell> type, final boolean isKey) {
         this.name = Objects.requireNonNull(name, "name is null");
         this.type = Objects.requireNonNull(type, "type is null");
+        this.isKey = isKey;
     }
 
     public String getName() {
@@ -26,25 +29,31 @@ public class Column {
         return type;
     }
 
+    public boolean isKey() {
+        return isKey;
+    }
+
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Column)) return false;
-        Column column = (Column) o;
-        return Objects.equals(name, column.name) &&
-                type == column.type;
+        final Column column = (Column) o;
+        return isKey == column.isKey &&
+                Objects.equals(name, column.name) &&
+                Objects.equals(type, column.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type);
+        return Objects.hash(name, type, isKey);
     }
 
     @Override
     public String toString() {
-        return "Column{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                '}';
+        return new StringJoiner(", ", Column.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("type=" + type)
+                .add("isKey=" + isKey)
+                .toString();
     }
 }

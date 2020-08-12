@@ -43,7 +43,8 @@ public class CreateTableListener extends VQLBaseListener {
 
         Column column = new Column(
                 columnName,
-                columnType
+                columnType,
+                false
         );
 
         columns.add(column);

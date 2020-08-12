@@ -2,6 +2,8 @@ package org.svgroz.vacationdb.datastore.exception;
 
 import org.svgroz.vacationdb.datastore.model.Cell;
 
+import java.util.StringJoiner;
+
 public class UnsupportedColumnTypeException extends DataStoreException {
     private transient final Class<? extends Cell> columnType;
 
@@ -15,8 +17,8 @@ public class UnsupportedColumnTypeException extends DataStoreException {
 
     @Override
     public String toString() {
-        return "UnsupportedColumnType{" +
-                "columnType=" + columnType +
-                '}';
+        return new StringJoiner(", ", UnsupportedColumnTypeException.class.getSimpleName() + "[", "]")
+                .add("columnType=" + columnType)
+                .toString();
     }
 }
