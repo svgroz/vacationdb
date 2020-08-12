@@ -20,7 +20,7 @@ public class Table {
      * @throws EmptyColumnsException        if columns is empty
      * @throws ColumnsContainsNullException if columns contains one or more null values
      */
-    public Table(final String name, final List<Column> columns) throws NullPointerException, EmptyColumnsException, ColumnsContainsNullException {
+    public Table(final String name, final List<Column> columns) {
         this.name = Objects.requireNonNull(name, "name is null");
 
         Objects.requireNonNull(columns, "columns is null");

@@ -12,13 +12,13 @@ import java.util.List;
 class TableTest {
     @Test
     void tableArgumentsValidationPositive() {
-        final Column validColumn = new Column("name", ColumnType.BOOLEAN);
+        final Column validColumn = new Column("name", BooleanCell.class);
         Assertions.assertDoesNotThrow(() -> new Table("foo", List.of(validColumn)));
     }
 
     @Test
     void tableArgumentsValidationNegative() {
-        final Column validColumn = new Column("name", ColumnType.BOOLEAN);
+        final Column validColumn = new Column("name", BooleanCell.class);
         Assertions.assertThrows(NullPointerException.class, () -> new Table(null, List.of(validColumn)));
         Assertions.assertThrows(NullPointerException.class, () -> new Table("name", null));
         Assertions.assertThrows(EmptyColumnsException.class, () -> new Table("name", Collections.emptyList()));

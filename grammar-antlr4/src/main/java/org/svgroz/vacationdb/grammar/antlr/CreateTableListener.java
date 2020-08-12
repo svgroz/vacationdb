@@ -1,8 +1,6 @@
 package org.svgroz.vacationdb.grammar.antlr;
 
-import org.svgroz.vacationdb.datastore.model.Column;
-import org.svgroz.vacationdb.datastore.model.ColumnType;
-import org.svgroz.vacationdb.datastore.model.Table;
+import org.svgroz.vacationdb.datastore.model.*;
 import org.svgroz.vacationdb.grammar.exception.UnsupportedColumnType;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.parser.VQLBaseListener;
@@ -14,7 +12,7 @@ import java.util.Objects;
 
 public class CreateTableListener extends VQLBaseListener {
     private String tableName;
-    private List<Column> columns = new ArrayList<>();
+    private final List<Column> columns = new ArrayList<>();
 
     @Override
     public void exitCreate_table_name(VQLParser.Create_table_nameContext ctx) {
@@ -25,19 +23,19 @@ public class CreateTableListener extends VQLBaseListener {
     public void exitColumn(VQLParser.ColumnContext ctx) {
         final String columnName = Objects.requireNonNull(ctx.ID().getText(), "raw column name is null");
         final String rawColumnType = Objects.requireNonNull(ctx.COLUMN_TYPE().getText(), "raw column type is null");
-        final ColumnType columnType;
+        final Class<? extends Cell> columnType;
         switch (rawColumnType) {
             case "BOOLEAN":
-                columnType = ColumnType.BOOLEAN;
+                columnType = BooleanCell.class;
                 break;
             case "LONG":
-                columnType = ColumnType.LONG;
+                columnType = LongCell.class;
                 break;
             case "DOUBLE":
-                columnType = ColumnType.DOUBLE;
+                columnType = DoubleCell.class;
                 break;
             case "STRING":
-                columnType = ColumnType.STRING;
+                columnType = StringCell.class;
                 break;
             default:
                 throw new UnsupportedColumnType(rawColumnType);

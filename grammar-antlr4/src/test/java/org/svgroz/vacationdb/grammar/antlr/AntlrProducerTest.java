@@ -2,8 +2,7 @@ package org.svgroz.vacationdb.grammar.antlr;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.svgroz.vacationdb.datastore.model.Column;
-import org.svgroz.vacationdb.datastore.model.ColumnType;
+import org.svgroz.vacationdb.datastore.model.*;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.grammar.expression.ExpressionType;
 import org.svgroz.vacationdb.grammar.expression.GeneralExpression;
@@ -33,7 +32,7 @@ class AntlrProducerTest {
         Column column = createTableExpression.getTable().getColumns().get(0);
         Assertions.assertNotNull(column);
         Assertions.assertEquals("BAR", column.getName());
-        Assertions.assertEquals(ColumnType.LONG, column.getType());
+        Assertions.assertEquals(LongCell.class, column.getType());
     }
 
     @Test
@@ -42,15 +41,15 @@ class AntlrProducerTest {
 
         final String tableName = "FOO";
         final String firstColumnName = "BARONE";
-        final ColumnType firstColumnType = ColumnType.LONG;
+        final Class<? extends Cell> firstColumnType = LongCell.class;
         final String secondColumnName = "BARTWO";
-        final ColumnType secondColumnType = ColumnType.STRING;
+        final Class<? extends Cell> secondColumnType = StringCell.class;
 
 
         GeneralExpression expression = antlrProducer.produce(
                 "CREATE TABLE " + tableName + " (" +
-                        firstColumnType.name() + " " + firstColumnName + " ," +
-                        secondColumnType.name() + " " + secondColumnName + " " +
+                        " LONG " + firstColumnName + " ," +
+                        " STRING " + secondColumnName + " " +
                         ");"
         );
 
@@ -86,24 +85,24 @@ class AntlrProducerTest {
         final String tableName = "FOO";
 
         final String firstColumnName = "BARONE";
-        final ColumnType firstColumnType = ColumnType.BOOLEAN;
+        final Class<? extends Cell> firstColumnType = BooleanCell.class;
 
         final String secondColumnName = "BARTWO";
-        final ColumnType secondColumnType = ColumnType.LONG;
+        final Class<? extends Cell> secondColumnType = LongCell.class;
 
         final String thirdColumnName = "BARTHREE";
-        final ColumnType thirdColumnType = ColumnType.DOUBLE;
+        final Class<? extends Cell> thirdColumnType = DoubleCell.class;
 
         final String foursColumnName = "BARFOUR";
-        final ColumnType foursColumnType = ColumnType.STRING;
+        final Class<? extends Cell> foursColumnType = StringCell.class;
 
 
         GeneralExpression expression = antlrProducer.produce(
                 "CREATE TABLE " + tableName + " (" +
-                        firstColumnType.name() + " " + firstColumnName + " ," +
-                        secondColumnType.name() + " " + secondColumnName + " ," +
-                        thirdColumnType.name() + " " + thirdColumnName + " ," +
-                        foursColumnType.name() + " " + foursColumnName + " " +
+                        "BOOLEAN" + " " + firstColumnName + " ," +
+                        "LONG" + " " + secondColumnName + " ," +
+                        "DOUBLE" + " " + thirdColumnName + " ," +
+                        "STRING" + " " + foursColumnName + " " +
                         ");"
         );
 

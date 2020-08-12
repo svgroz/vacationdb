@@ -4,9 +4,16 @@ import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
 
 import java.util.Objects;
 
-public class DoubleCell implements TypedCellType<Double> {
+/**
+ * That class is null safety, thread safety, and immutable.
+ */
+public class DoubleCell implements TypedCell<Double> {
     private final Double value;
 
+    /**
+     * @param value cannot be null
+     * @throws NullPointerException if value is null
+     */
     public DoubleCell(final Double value) {
         this.value = Objects.requireNonNull(value, "value is null");
     }
@@ -17,7 +24,12 @@ public class DoubleCell implements TypedCellType<Double> {
     }
 
     @Override
-    public int compareTo(final CellType o) {
+    public Class<Double> supportedType() {
+        return Double.class;
+    }
+
+    @Override
+    public int compareTo(final Cell o) {
         if (EmptyCell.isEmpty(o)) {
             return 1;
         }

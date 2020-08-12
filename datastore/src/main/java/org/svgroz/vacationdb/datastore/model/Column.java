@@ -7,13 +7,13 @@ import java.util.Objects;
  */
 public class Column {
     private final String name;
-    private final ColumnType type;
+    private final Class<? extends Cell> type;
 
     /**
      * @param name cannot be null
      * @param type cannot be null
      */
-    public Column(final String name, final ColumnType type) {
+    public Column(final String name, final Class<? extends Cell> type) {
         this.name = Objects.requireNonNull(name, "name is null");
         this.type = Objects.requireNonNull(type, "type is null");
     }
@@ -22,7 +22,7 @@ public class Column {
         return name;
     }
 
-    public ColumnType getType() {
+    public Class<? extends Cell> getType() {
         return type;
     }
 

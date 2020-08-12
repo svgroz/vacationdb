@@ -1,21 +1,21 @@
 package org.svgroz.vacationdb.datastore.exception;
 
-import org.svgroz.vacationdb.datastore.model.CellType;
+import org.svgroz.vacationdb.datastore.model.Cell;
 
 public class CellsTypeMismatchException extends DataStoreException {
-    private transient final CellType first;
-    private transient final CellType second;
+    private transient final Cell first;
+    private transient final Cell second;
 
-    public CellsTypeMismatchException(final CellType first, final CellType second) {
+    public CellsTypeMismatchException(final Cell first, final Cell second) {
         this.first = first;
         this.second = second;
     }
 
-    public CellType getFirst() {
+    public Cell getFirst() {
         return first;
     }
 
-    public CellType getSecond() {
+    public Cell getSecond() {
         return second;
     }
 

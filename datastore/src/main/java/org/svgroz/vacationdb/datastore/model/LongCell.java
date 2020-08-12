@@ -4,9 +4,16 @@ import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
 
 import java.util.Objects;
 
-public class LongCell implements TypedCellType<Long> {
+/**
+ * That class is null safety, thread safety, and immutable.
+ */
+public class LongCell implements TypedCell<Long> {
     private final Long value;
 
+    /**
+     * @param value cannot be null
+     * @throws NullPointerException if value is null
+     */
     public LongCell(final Long value) {
         this.value = Objects.requireNonNull(value);
     }
@@ -17,7 +24,12 @@ public class LongCell implements TypedCellType<Long> {
     }
 
     @Override
-    public int compareTo(final CellType o) {
+    public Class<Long> supportedType() {
+        return Long.class;
+    }
+
+    @Override
+    public int compareTo(final Cell o) {
         if (EmptyCell.isEmpty(o)) {
             return 1;
         }

@@ -4,9 +4,16 @@ import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
 
 import java.util.Objects;
 
-public class BooleanCell implements TypedCellType<Boolean> {
+/**
+ * That class is null safety, thread safety, and immutable.
+ */
+public class BooleanCell implements TypedCell<Boolean> {
     private final Boolean value;
 
+    /**
+     * @param value cannot be null
+     * @throws NullPointerException if value is null
+     */
     public BooleanCell(final Boolean value) {
         this.value = Objects.requireNonNull(value, "value is null");
     }
@@ -17,7 +24,12 @@ public class BooleanCell implements TypedCellType<Boolean> {
     }
 
     @Override
-    public int compareTo(final CellType o) {
+    public Class<Boolean> supportedType() {
+        return Boolean.class;
+    }
+
+    @Override
+    public int compareTo(final Cell o) {
         if (EmptyCell.isEmpty(o)) {
             return 1;
         }

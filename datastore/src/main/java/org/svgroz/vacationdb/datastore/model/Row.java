@@ -11,7 +11,7 @@ import java.util.Objects;
  * That class is null safety, thread safety, and immutable.
  */
 public class Row implements Comparable<Row> {
-    private final List<CellType> cells;
+    private final List<Cell> cells;
 
     /**
      * @param cells cannot be null and cannot contains null values itself
@@ -19,14 +19,14 @@ public class Row implements Comparable<Row> {
      * @throws EmptyCellsException        if cells is empty
      * @throws CellsContainsNullException if cells contains one or more null values
      */
-    public Row(final List<CellType> cells) throws NullPointerException, EmptyCellsException, CellsContainsNullException {
+    public Row(final List<Cell> cells) throws NullPointerException, EmptyCellsException, CellsContainsNullException {
         Objects.requireNonNull(cells, "cells is null");
 
         if (cells.isEmpty()) {
             throw new EmptyCellsException();
         }
 
-        for (final CellType cell : cells) {
+        for (final Cell cell : cells) {
             if (cell == null) {
                 throw new CellsContainsNullException();
             }
@@ -39,8 +39,8 @@ public class Row implements Comparable<Row> {
     public int compareTo(final Row target) {
         Objects.requireNonNull(target, "target is null");
 
-        final List<CellType> firstColumns = cells;
-        final List<CellType> secondColumns = target.getCells();
+        final List<Cell> firstColumns = cells;
+        final List<Cell> secondColumns = target.getCells();
 
         if (firstColumns.size() != secondColumns.size()) {
             throw new RowsDifferentLengthsException(this, target);
@@ -51,8 +51,8 @@ public class Row implements Comparable<Row> {
         }
 
         for (int i = 0; i < firstColumns.size(); i++) {
-            CellType cellFromTheFirstRow = firstColumns.get(i);
-            CellType cellFromTheSecondRow = secondColumns.get(i);
+            Cell cellFromTheFirstRow = firstColumns.get(i);
+            Cell cellFromTheSecondRow = secondColumns.get(i);
 
             int result = cellFromTheFirstRow.compareTo(cellFromTheSecondRow);
             if (result != 0) {
@@ -63,7 +63,7 @@ public class Row implements Comparable<Row> {
         return 0;
     }
 
-    public List<CellType> getCells() {
+    public List<Cell> getCells() {
         return cells;
     }
 

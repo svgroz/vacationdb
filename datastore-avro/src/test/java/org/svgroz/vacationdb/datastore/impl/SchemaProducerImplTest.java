@@ -3,8 +3,8 @@ package org.svgroz.vacationdb.datastore.impl;
 import org.apache.avro.Schema;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.svgroz.vacationdb.datastore.model.BooleanCell;
 import org.svgroz.vacationdb.datastore.model.Column;
-import org.svgroz.vacationdb.datastore.model.ColumnType;
 import org.svgroz.vacationdb.datastore.model.Table;
 
 import java.util.List;
@@ -17,8 +17,7 @@ class SchemaProducerImplTest {
 
         final String tableName = "FOO";
         final String columnName = "BAR";
-        final ColumnType columnType = ColumnType.STRING;
-        final Column column = new Column(columnName, columnType);
+        final Column column = new Column(columnName, BooleanCell.class);
 
         Table table = new Table(
                 tableName,
