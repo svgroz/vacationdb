@@ -1,6 +1,7 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
 
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -10,25 +11,28 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class BooleanCell implements TypedCell<Boolean> {
-    private final Boolean value;
+final class LongCell implements TypedCell<Long> {
+
+    private static final DataType SUPPORTED_TYPE = DataType.LONG;
+
+    private final Long value;
 
     /**
      * @param value cannot be null
      * @throws NullPointerException if value is null
      */
-    public BooleanCell(final Boolean value) {
-        this.value = Objects.requireNonNull(value, "value is null");
+    LongCell(final Long value) {
+        this.value = Objects.requireNonNull(value);
     }
 
     @Override
-    public Boolean getValue() {
+    public Long getValue() {
         return value;
     }
 
     @Override
-    public Class<Boolean> supportedType() {
-        return Boolean.class;
+    public DataType supportedType() {
+        return SUPPORTED_TYPE;
     }
 
     @Override
@@ -38,8 +42,8 @@ public class BooleanCell implements TypedCell<Boolean> {
             return 1;
         }
 
-        if (target instanceof BooleanCell) {
-            return value.compareTo(((BooleanCell) target).getValue());
+        if (supportedType() == target.supportedType()) {
+            return value.compareTo(((LongCell) target).getValue());
         } else {
             throw new CellsTypeMismatchException(this, target);
         }
@@ -48,9 +52,9 @@ public class BooleanCell implements TypedCell<Boolean> {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof BooleanCell)) return false;
-        final BooleanCell that = (BooleanCell) o;
-        return Objects.equals(value, that.value);
+        if (!(o instanceof LongCell)) return false;
+        final LongCell longCell = (LongCell) o;
+        return Objects.equals(value, longCell.value);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class BooleanCell implements TypedCell<Boolean> {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", BooleanCell.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", LongCell.class.getSimpleName() + "[", "]")
                 .add("value=" + value)
                 .toString();
     }

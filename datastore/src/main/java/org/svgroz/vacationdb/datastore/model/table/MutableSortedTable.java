@@ -1,6 +1,15 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.table;
 
-import org.svgroz.vacationdb.datastore.exception.*;
+import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysException;
+import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
+import org.svgroz.vacationdb.datastore.exception.RowDoesNotMatchTableWidth;
+import org.svgroz.vacationdb.datastore.exception.RowHasIncompatibleCellTypeOrderException;
+import org.svgroz.vacationdb.datastore.model.cell.Cell;
+import org.svgroz.vacationdb.datastore.model.column.Column;
+import org.svgroz.vacationdb.datastore.model.row.Row;
+import org.svgroz.vacationdb.datastore.model.row.RowComparator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +83,7 @@ public class MutableSortedTable implements MutableTable {
 
             final Column column = metadata.getColumns().get(i);
 
-            if (!column.getType().isInstance(cell)) {
+            if (column.getType() != cell.supportedType()) {
                 throw new RowHasIncompatibleCellTypeOrderException(row, metadata);
             }
         }

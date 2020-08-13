@@ -1,6 +1,7 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
 
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -10,25 +11,28 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class LongCell implements TypedCell<Long> {
-    private final Long value;
+final class DoubleCell implements TypedCell<Double> {
+
+    private static final DataType SUPPORTED_TYPE = DataType.DOUBLE;
+
+    private final Double value;
 
     /**
-     * @param value cannot be null
+     * @param value supposed to be not null
      * @throws NullPointerException if value is null
      */
-    public LongCell(final Long value) {
-        this.value = Objects.requireNonNull(value);
+    DoubleCell(final Double value) {
+        this.value = Objects.requireNonNull(value, "value is null");
     }
 
     @Override
-    public Long getValue() {
+    public Double getValue() {
         return value;
     }
 
     @Override
-    public Class<Long> supportedType() {
-        return Long.class;
+    public DataType supportedType() {
+        return SUPPORTED_TYPE;
     }
 
     @Override
@@ -38,8 +42,8 @@ public class LongCell implements TypedCell<Long> {
             return 1;
         }
 
-        if (target instanceof LongCell) {
-            return value.compareTo(((LongCell) target).getValue());
+        if (supportedType() == target.supportedType()) {
+            return value.compareTo(((DoubleCell) target).getValue());
         } else {
             throw new CellsTypeMismatchException(this, target);
         }
@@ -48,9 +52,9 @@ public class LongCell implements TypedCell<Long> {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof LongCell)) return false;
-        final LongCell longCell = (LongCell) o;
-        return Objects.equals(value, longCell.value);
+        if (!(o instanceof DoubleCell)) return false;
+        final DoubleCell that = (DoubleCell) o;
+        return Objects.equals(value, that.value);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class LongCell implements TypedCell<Long> {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", LongCell.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", DoubleCell.class.getSimpleName() + "[", "]")
                 .add("value=" + value)
                 .toString();
     }

@@ -1,4 +1,4 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.table;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com

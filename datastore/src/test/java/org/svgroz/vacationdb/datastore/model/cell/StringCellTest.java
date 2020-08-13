@@ -1,8 +1,9 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com
@@ -22,7 +23,7 @@ class StringCellTest {
 
     @Test
     void supportedType() {
-        Assertions.assertEquals(String.class, new StringCell("0").supportedType());
+        Assertions.assertEquals(DataType.STRING, new StringCell("0").supportedType());
     }
 
     @Test

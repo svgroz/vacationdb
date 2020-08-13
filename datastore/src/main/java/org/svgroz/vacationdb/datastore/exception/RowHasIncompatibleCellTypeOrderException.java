@@ -1,7 +1,7 @@
 package org.svgroz.vacationdb.datastore.exception;
 
-import org.svgroz.vacationdb.datastore.model.Row;
-import org.svgroz.vacationdb.datastore.model.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.row.Row;
+import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 
 import java.util.StringJoiner;
 

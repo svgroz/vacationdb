@@ -1,6 +1,8 @@
 package org.svgroz.vacationdb.grammar.antlr;
 
-import org.svgroz.vacationdb.datastore.model.*;
+import org.svgroz.vacationdb.datastore.model.DataType;
+import org.svgroz.vacationdb.datastore.model.column.Column;
+import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 import org.svgroz.vacationdb.grammar.exception.UnsupportedColumnType;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.parser.VQLBaseListener;
@@ -23,27 +25,21 @@ public class CreateTableListener extends VQLBaseListener {
     public void exitColumn(VQLParser.ColumnContext ctx) {
         final String columnName = Objects.requireNonNull(ctx.ID().getText(), "raw column name is null");
         final String rawColumnType = Objects.requireNonNull(ctx.COLUMN_TYPE().getText(), "raw column type is null");
-        final Class<? extends Cell> columnType;
-        switch (rawColumnType) {
-            case "BOOLEAN":
-                columnType = BooleanCell.class;
-                break;
-            case "LONG":
-                columnType = LongCell.class;
-                break;
-            case "DOUBLE":
-                columnType = DoubleCell.class;
-                break;
-            case "STRING":
-                columnType = StringCell.class;
-                break;
-            default:
-                throw new UnsupportedColumnType(rawColumnType);
+
+        final DataType dataType;
+        try {
+            dataType = DataType.valueOf(rawColumnType);
+        } catch (IllegalArgumentException ex) {
+            throw new UnsupportedColumnType(rawColumnType);
+        }
+
+        if (DataType.EMPTY == dataType) {
+            throw new UnsupportedColumnType(rawColumnType);
         }
 
         Column column = new Column(
                 columnName,
-                columnType,
+                dataType,
                 false
         );
 

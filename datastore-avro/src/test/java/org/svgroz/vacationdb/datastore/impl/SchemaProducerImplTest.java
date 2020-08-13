@@ -3,9 +3,9 @@ package org.svgroz.vacationdb.datastore.impl;
 import org.apache.avro.Schema;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.svgroz.vacationdb.datastore.model.BooleanCell;
-import org.svgroz.vacationdb.datastore.model.Column;
-import org.svgroz.vacationdb.datastore.model.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.DataType;
+import org.svgroz.vacationdb.datastore.model.column.Column;
+import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ class SchemaProducerImplTest {
 
         final String tableName = "FOO";
         final String columnName = "BAR";
-        final Column column = new Column(columnName, BooleanCell.class, true);
+        final Column column = new Column(columnName, DataType.BOOLEAN, true);
 
         TableMetadata table = new TableMetadata(
                 tableName,

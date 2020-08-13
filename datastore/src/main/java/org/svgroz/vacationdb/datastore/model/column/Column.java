@@ -1,4 +1,6 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.column;
+
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -10,14 +12,14 @@ import java.util.StringJoiner;
  */
 public class Column {
     private final String name;
-    private final Class<? extends Cell> type;
+    private final DataType type;
     private final boolean isKey;
 
     /**
      * @param name cannot be null
      * @param type cannot be null
      */
-    public Column(final String name, final Class<? extends Cell> type, final boolean isKey) {
+    public Column(final String name, final DataType type, final boolean isKey) {
         this.name = Objects.requireNonNull(name, "name is null");
         this.type = Objects.requireNonNull(type, "type is null");
         this.isKey = isKey;
@@ -27,7 +29,7 @@ public class Column {
         return name;
     }
 
-    public Class<? extends Cell> getType() {
+    public DataType getType() {
         return type;
     }
 
@@ -42,7 +44,7 @@ public class Column {
         final Column column = (Column) o;
         return isKey == column.isKey &&
                 Objects.equals(name, column.name) &&
-                Objects.equals(type, column.type);
+                type == column.type;
     }
 
     @Override

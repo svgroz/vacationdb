@@ -1,11 +1,16 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.table;
 
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysException;
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
+import org.svgroz.vacationdb.datastore.model.column.Column;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringJoiner;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com

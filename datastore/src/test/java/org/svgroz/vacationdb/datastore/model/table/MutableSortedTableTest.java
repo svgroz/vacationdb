@@ -1,10 +1,12 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.table;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysException;
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
+import org.svgroz.vacationdb.datastore.model.DataType;
+import org.svgroz.vacationdb.datastore.model.column.Column;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,14 +15,14 @@ import java.util.List;
 class MutableSortedTableTest {
     @Test
     void tableArgumentsValidationPositive() {
-        final Column validColumn1 = new Column("name1", BooleanCell.class, true);
-        final Column validColumn2 = new Column("name2", BooleanCell.class, false);
+        final Column validColumn1 = new Column("name1", DataType.BOOLEAN, true);
+        final Column validColumn2 = new Column("name2", DataType.BOOLEAN, false);
         Assertions.assertDoesNotThrow(() -> new MutableSortedTable("foo", List.of(validColumn1, validColumn2)));
     }
 
     @Test
     void tableArgumentsValidationNegative() {
-        final Column validColumn = new Column("name", BooleanCell.class, false);
+        final Column validColumn = new Column("name", DataType.BOOLEAN, false);
         Assertions.assertThrows(NullPointerException.class, () -> new MutableSortedTable(null, List.of(validColumn)));
         Assertions.assertThrows(NullPointerException.class, () -> new MutableSortedTable("name", null));
         Assertions.assertThrows(EmptyColumnsException.class, () -> new MutableSortedTable("name", Collections.emptyList()));

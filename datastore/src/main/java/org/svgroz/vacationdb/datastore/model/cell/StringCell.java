@@ -1,6 +1,7 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
 
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -10,14 +11,17 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class StringCell implements TypedCell<String> {
+final class StringCell implements TypedCell<String> {
+
+    private static final DataType SUPPORTED_TYPE = DataType.STRING;
+
     private final String value;
 
     /**
      * @param value cannot be null
      * @throws NullPointerException if value is null
      */
-    public StringCell(final String value) {
+    StringCell(final String value) {
         this.value = Objects.requireNonNull(value);
     }
 
@@ -27,8 +31,8 @@ public class StringCell implements TypedCell<String> {
     }
 
     @Override
-    public Class<String> supportedType() {
-        return String.class;
+    public DataType supportedType() {
+        return SUPPORTED_TYPE;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class StringCell implements TypedCell<String> {
             return 1;
         }
 
-        if (target instanceof StringCell) {
+        if (supportedType() == target.supportedType()) {
             return value.compareTo(((StringCell) target).getValue());
         } else {
             throw new CellsTypeMismatchException(this, target);

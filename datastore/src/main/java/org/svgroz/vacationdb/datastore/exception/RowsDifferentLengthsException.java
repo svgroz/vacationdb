@@ -1,6 +1,6 @@
 package org.svgroz.vacationdb.datastore.exception;
 
-import org.svgroz.vacationdb.datastore.model.Row;
+import org.svgroz.vacationdb.datastore.model.row.Row;
 
 import java.util.StringJoiner;
 

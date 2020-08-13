@@ -1,4 +1,4 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
 
 /**
  * That class represents cells with typed content
@@ -13,9 +13,4 @@ public interface TypedCell<T> extends Cell {
      * @return not null value
      */
     T getValue();
-
-    /**
-     * @return supported type
-     */
-    Class<T> supportedType();
 }

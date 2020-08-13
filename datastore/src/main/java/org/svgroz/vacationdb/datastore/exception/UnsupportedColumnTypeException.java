@@ -1,6 +1,6 @@
 package org.svgroz.vacationdb.datastore.exception;
 
-import org.svgroz.vacationdb.datastore.model.Cell;
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.StringJoiner;
 
@@ -8,20 +8,20 @@ import java.util.StringJoiner;
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public class UnsupportedColumnTypeException extends DataStoreException {
-    private transient final Class<? extends Cell> columnType;
+    private transient final DataType dataType;
 
-    public UnsupportedColumnTypeException(Class<? extends Cell> columnType) {
-        this.columnType = columnType;
+    public UnsupportedColumnTypeException(final DataType dataType) {
+        this.dataType = dataType;
     }
 
-    public Class<? extends Cell> getColumnType() {
-        return columnType;
+    public DataType getDataType() {
+        return dataType;
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", UnsupportedColumnTypeException.class.getSimpleName() + "[", "]")
-                .add("columnType=" + columnType)
+                .add("dataType=" + dataType)
                 .toString();
     }
 }

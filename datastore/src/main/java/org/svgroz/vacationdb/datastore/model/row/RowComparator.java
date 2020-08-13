@@ -1,7 +1,8 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.row;
 
 import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
 import org.svgroz.vacationdb.datastore.exception.RowsDifferentLengthsException;
+import org.svgroz.vacationdb.datastore.model.cell.Cell;
 
 import java.util.Comparator;
 import java.util.List;

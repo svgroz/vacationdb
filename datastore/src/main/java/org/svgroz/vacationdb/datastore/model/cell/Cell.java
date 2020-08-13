@@ -1,4 +1,6 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
+
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 /**
  * Basic cells interface
@@ -6,6 +8,11 @@ package org.svgroz.vacationdb.datastore.model;
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public interface Cell extends Comparable<Cell> {
+
+    /**
+     * @return supported type
+     */
+    DataType supportedType();
 
     /**
      * @param value supposed to be not null
@@ -51,6 +58,6 @@ public interface Cell extends Comparable<Cell> {
      * @return true if cell is instance of {@link EmptyCell}
      */
     static boolean isEmpty(Cell cell) {
-        return EmptyCell.isEmpty(cell);
+        return DataType.EMPTY == cell.supportedType();
     }
 }

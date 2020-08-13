@@ -1,4 +1,6 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.cell;
+
+import org.svgroz.vacationdb.datastore.model.DataType;
 
 import java.util.StringJoiner;
 
@@ -7,7 +9,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class EmptyCell implements Cell {
+final class EmptyCell implements Cell {
 
     private static final EmptyCell INSTANCE = new EmptyCell();
 
@@ -16,6 +18,11 @@ public class EmptyCell implements Cell {
 
     public static EmptyCell getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public DataType supportedType() {
+        return DataType.EMPTY;
     }
 
     /**

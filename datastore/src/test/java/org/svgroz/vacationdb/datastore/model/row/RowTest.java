@@ -1,9 +1,10 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.row;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.CellsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
+import org.svgroz.vacationdb.datastore.model.cell.Cell;
 
 import java.util.Arrays;
 import java.util.Collections;

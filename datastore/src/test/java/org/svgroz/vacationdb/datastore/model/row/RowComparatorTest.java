@@ -1,7 +1,8 @@
-package org.svgroz.vacationdb.datastore.model;
+package org.svgroz.vacationdb.datastore.model.row;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.svgroz.vacationdb.datastore.model.cell.Cell;
 
 import java.util.List;
 
