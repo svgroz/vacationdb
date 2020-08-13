@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.model.BooleanCell;
 import org.svgroz.vacationdb.datastore.model.Column;
-import org.svgroz.vacationdb.datastore.model.Table;
+import org.svgroz.vacationdb.datastore.model.TableMetadata;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ class SchemaProducerImplTest {
         final String columnName = "BAR";
         final Column column = new Column(columnName, BooleanCell.class, true);
 
-        Table table = new Table(
+        TableMetadata table = new TableMetadata(
                 tableName,
                 List.of(column)
         );

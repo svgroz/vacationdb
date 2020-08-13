@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.CellsTypeMismatchException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Simon Grozovsky svgroz@outlook.com
  */

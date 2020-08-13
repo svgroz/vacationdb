@@ -1,18 +1,18 @@
 package org.svgroz.vacationdb.datastore.model;
 
-import org.svgroz.vacationdb.datastore.exception.*;
+import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysException;
+import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 
 import java.util.*;
 
 /**
- * This class represent metadata information about table - columns, key indexes.
- * Immutable and thread safe.
- *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public final class TableMetadata {
+public class TableMetadata {
+    private final String name;
     private final List<Column> columns;
-    private final KeyIndexesContainer keyIndexesContainer;
 
     /**
      * @param columns table columns, cannot be null, should have one key column at least
@@ -22,15 +22,16 @@ public final class TableMetadata {
      * @throws ColumnsContainsSameNamesException   if columns contains same names
      * @throws ColumnsDoesNotContainsKeysException if columns does not contains key columns
      */
-    public TableMetadata(final List<Column> columns) {
+    public TableMetadata(final String name, final List<Column> columns) {
+        this.name = Objects.requireNonNull(name, "name is null");
         Objects.requireNonNull(columns, "columns is null");
         if (columns.isEmpty()) {
             throw new EmptyColumnsException();
         }
 
-        final List<Integer> keyIndexes = new ArrayList<>();
         final Set<String> uniqueNames = new HashSet<>();
 
+        int keysCount = 0;
         for (int i = 0; i < columns.size(); i++) {
             Column column = columns.get(i);
             if (column == null) {
@@ -40,32 +41,24 @@ public final class TableMetadata {
             if (!uniqueNames.add(column.getName())) {
                 throw new ColumnsContainsSameNamesException(columns);
             }
-
             if (column.isKey()) {
-                keyIndexes.add(i);
+                keysCount = keysCount + 1;
             }
         }
 
-        if (keyIndexes.isEmpty()) {
+        if (keysCount == 0) {
             throw new ColumnsDoesNotContainsKeysException(columns);
         }
 
         this.columns = List.copyOf(columns);
-        this.keyIndexesContainer = new KeyIndexesContainer(List.copyOf(keyIndexes));
     }
 
-    /**
-     * @return immutable list of columns {@link Column}
-     */
+    public String getName() {
+        return name;
+    }
+
     public List<Column> getColumns() {
         return columns;
-    }
-
-    /**
-     * @return key indexes container {@link KeyIndexesContainer}
-     */
-    public KeyIndexesContainer getKeyIndexesContainer() {
-        return keyIndexesContainer;
     }
 
     @Override
@@ -73,20 +66,20 @@ public final class TableMetadata {
         if (this == o) return true;
         if (!(o instanceof TableMetadata)) return false;
         final TableMetadata that = (TableMetadata) o;
-        return Objects.equals(columns, that.columns) &&
-                Objects.equals(keyIndexesContainer, that.keyIndexesContainer);
+        return Objects.equals(name, that.name) &&
+                Objects.equals(columns, that.columns);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(columns, keyIndexesContainer);
+        return Objects.hash(name, columns);
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", TableMetadata.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
                 .add("columns=" + columns)
-                .add("keyIndexesContainer=" + keyIndexesContainer)
                 .toString();
     }
 }

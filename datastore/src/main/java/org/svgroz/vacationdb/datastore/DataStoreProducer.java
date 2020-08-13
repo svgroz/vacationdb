@@ -1,7 +1,7 @@
 package org.svgroz.vacationdb.datastore;
 
-import org.svgroz.vacationdb.datastore.model.Table;
+import org.svgroz.vacationdb.datastore.model.TableMetadata;
 
 public interface DataStoreProducer {
-    void createTable(Table table);
+    void createTable(TableMetadata table);
 }

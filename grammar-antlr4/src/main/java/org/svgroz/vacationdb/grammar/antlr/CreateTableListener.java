@@ -52,7 +52,7 @@ public class CreateTableListener extends VQLBaseListener {
 
     public CreateTableExpression getCreateTableExpression() {
         return new CreateTableExpression(
-                new Table(
+                new TableMetadata(
                         tableName,
                         columns
                 )

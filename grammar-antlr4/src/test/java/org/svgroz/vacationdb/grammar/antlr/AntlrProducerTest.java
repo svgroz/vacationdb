@@ -21,15 +21,15 @@ class AntlrProducerTest {
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 
-        Assertions.assertNotNull(createTableExpression.getTable());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getName());
-        Assertions.assertEquals("FOO", createTableExpression.getTable().getName());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getName());
+        Assertions.assertEquals("FOO", createTableExpression.getTableMetadata().getName());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getMetadata().getColumns());
-        Assertions.assertEquals(1, createTableExpression.getTable().getMetadata().getColumns().size());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getColumns());
+        Assertions.assertEquals(1, createTableExpression.getTableMetadata().getColumns().size());
 
-        Column column = createTableExpression.getTable().getMetadata().getColumns().get(0);
+        Column column = createTableExpression.getTableMetadata().getColumns().get(0);
         Assertions.assertNotNull(column);
         Assertions.assertEquals("BAR", column.getName());
         Assertions.assertEquals(LongCell.class, column.getType());
@@ -59,20 +59,20 @@ class AntlrProducerTest {
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 
-        Assertions.assertNotNull(createTableExpression.getTable());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getName());
-        Assertions.assertEquals("FOO", createTableExpression.getTable().getName());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getName());
+        Assertions.assertEquals("FOO", createTableExpression.getTableMetadata().getName());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getMetadata().getColumns());
-        Assertions.assertEquals(2, createTableExpression.getTable().getMetadata().getColumns().size());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getColumns());
+        Assertions.assertEquals(2, createTableExpression.getTableMetadata().getColumns().size());
 
-        Column firstColumn = createTableExpression.getTable().getMetadata().getColumns().get(0);
+        Column firstColumn = createTableExpression.getTableMetadata().getColumns().get(0);
         Assertions.assertNotNull(firstColumn);
         Assertions.assertEquals(firstColumnName, firstColumn.getName());
         Assertions.assertEquals(firstColumnType, firstColumn.getType());
 
-        Column secondColumn = createTableExpression.getTable().getMetadata().getColumns().get(1);
+        Column secondColumn = createTableExpression.getTableMetadata().getColumns().get(1);
         Assertions.assertNotNull(secondColumn);
         Assertions.assertEquals(secondColumnName, secondColumn.getName());
         Assertions.assertEquals(secondColumnType, secondColumn.getType());
@@ -112,30 +112,30 @@ class AntlrProducerTest {
 
         CreateTableExpression createTableExpression = (CreateTableExpression) expression;
 
-        Assertions.assertNotNull(createTableExpression.getTable());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getName());
-        Assertions.assertEquals("FOO", createTableExpression.getTable().getName());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getName());
+        Assertions.assertEquals("FOO", createTableExpression.getTableMetadata().getName());
 
-        Assertions.assertNotNull(createTableExpression.getTable().getMetadata().getColumns());
-        Assertions.assertEquals(4, createTableExpression.getTable().getMetadata().getColumns().size());
+        Assertions.assertNotNull(createTableExpression.getTableMetadata().getColumns());
+        Assertions.assertEquals(4, createTableExpression.getTableMetadata().getColumns().size());
 
-        Column firstColumn = createTableExpression.getTable().getMetadata().getColumns().get(0);
+        Column firstColumn = createTableExpression.getTableMetadata().getColumns().get(0);
         Assertions.assertNotNull(firstColumn);
         Assertions.assertEquals(firstColumnName, firstColumn.getName());
         Assertions.assertEquals(firstColumnType, firstColumn.getType());
 
-        Column secondColumn = createTableExpression.getTable().getMetadata().getColumns().get(1);
+        Column secondColumn = createTableExpression.getTableMetadata().getColumns().get(1);
         Assertions.assertNotNull(secondColumn);
         Assertions.assertEquals(secondColumnName, secondColumn.getName());
         Assertions.assertEquals(secondColumnType, secondColumn.getType());
 
-        Column thirdColumn = createTableExpression.getTable().getMetadata().getColumns().get(2);
+        Column thirdColumn = createTableExpression.getTableMetadata().getColumns().get(2);
         Assertions.assertNotNull(thirdColumn);
         Assertions.assertEquals(thirdColumnName, thirdColumn.getName());
         Assertions.assertEquals(thirdColumnType, thirdColumn.getType());
 
-        Column foursColumn = createTableExpression.getTable().getMetadata().getColumns().get(3);
+        Column foursColumn = createTableExpression.getTableMetadata().getColumns().get(3);
         Assertions.assertNotNull(foursColumn);
         Assertions.assertEquals(foursColumnName, foursColumn.getName());
         Assertions.assertEquals(foursColumnType, foursColumn.getType());

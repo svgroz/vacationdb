@@ -24,20 +24,20 @@ public class SchemaProducerImpl implements SchemaProducer {
     /**
      * Method for mapping from table metadata description to avro schema
      *
-     * @param table cannot be null
+     * @param metadata cannot be null
      * @return avro schema for given table
      * @throws NullPointerException if table is null
      */
     @Override
-    public Schema createSchemaFromTableMetadata(final Table table) throws NullPointerException {
-        Objects.requireNonNull(table, "table is null");
+    public Schema createSchemaFromTableMetadata(final TableMetadata metadata) {
+        Objects.requireNonNull(metadata, "metadata is null");
 
-        final String recordName = table.getName();
+        final String recordName = metadata.getName();
 
         SchemaBuilder.FieldAssembler<Schema> fields = SchemaBuilder.record(recordName)
                 .fields();
 
-        List<Column> columns = table.getMetadata().getColumns();
+        List<Column> columns = metadata.getColumns();
 
         for (Column column : columns) {
             SchemaBuilder.FieldBuilder<Schema> fieldBuilder = fields.name(column.getName());
