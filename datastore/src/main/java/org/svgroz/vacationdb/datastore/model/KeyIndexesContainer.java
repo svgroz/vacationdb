@@ -3,11 +3,12 @@ package org.svgroz.vacationdb.datastore.model;
 import org.svgroz.vacationdb.datastore.exception.KeyIndexesIsEmptyException;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 /**
  * This class has guaranties that key indexes does not contains null values,
  * does not contains same values, does not contains indexes less than zero
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class KeyIndexesContainer implements Iterable<Integer> {
     private final List<Integer> indexes;

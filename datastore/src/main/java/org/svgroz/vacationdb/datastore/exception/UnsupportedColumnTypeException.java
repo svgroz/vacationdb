@@ -4,6 +4,9 @@ import org.svgroz.vacationdb.datastore.model.Cell;
 
 import java.util.StringJoiner;
 
+/**
+ * @author Simon Grozovsky svgroz@outlook.com
+ */
 public class UnsupportedColumnTypeException extends DataStoreException {
     private transient final Class<? extends Cell> columnType;
 

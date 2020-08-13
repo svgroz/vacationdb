@@ -15,8 +15,8 @@ class RowTest {
     void rowArgumentValidationPositive() {
         final KeyIndexesContainer keyIndexesContainer = new KeyIndexesContainer(List.of(0));
 
-        Assertions.assertDoesNotThrow(() -> new Row(List.of(new BooleanCell(true)), keyIndexesContainer));
-        Assertions.assertDoesNotThrow(() -> new Row(List.of(new BooleanCell(true), EmptyCell.getInstance()), keyIndexesContainer)
+        Assertions.assertDoesNotThrow(() -> new Row(List.of(Cell.of(true)), keyIndexesContainer));
+        Assertions.assertDoesNotThrow(() -> new Row(List.of(Cell.of(true), Cell.empty()), keyIndexesContainer)
         );
     }
 
@@ -29,13 +29,13 @@ class RowTest {
         Assertions.assertThrows(EmptyCellsException.class, () -> new Row(Collections.emptyList(), valid));
         Assertions.assertThrows(CellsContainsNullException.class, () -> new Row(
                         Arrays.asList(
-                                new BooleanCell(true),
+                                Cell.of(true),
                                 null,
-                                EmptyCell.getInstance()
+                                Cell.empty()
                         ),
                         valid
                 )
         );
-        Assertions.assertThrows(MaxKeyIdIsBiggerThanCellsCountException.class, () -> new Row(List.of(new BooleanCell(true)), invalid));
+        Assertions.assertThrows(MaxKeyIdIsBiggerThanCellsCountException.class, () -> new Row(List.of(Cell.of(true)), invalid));
     }
 }

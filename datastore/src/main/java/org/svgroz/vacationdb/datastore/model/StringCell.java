@@ -7,6 +7,8 @@ import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class StringCell implements TypedCell<String> {
     private final String value;
@@ -30,15 +32,16 @@ public class StringCell implements TypedCell<String> {
     }
 
     @Override
-    public int compareTo(final Cell o) {
-        if (EmptyCell.isEmpty(o)) {
+    public int compareTo(final Cell target) {
+        Objects.requireNonNull(target, "target is null");
+        if (EmptyCell.isEmpty(target)) {
             return 1;
         }
 
-        if (o instanceof StringCell) {
-            return value.compareTo(((StringCell) o).getValue());
+        if (target instanceof StringCell) {
+            return value.compareTo(((StringCell) target).getValue());
         } else {
-            throw new CellsTypeMismatchException(this, o);
+            throw new CellsTypeMismatchException(this, target);
         }
     }
 

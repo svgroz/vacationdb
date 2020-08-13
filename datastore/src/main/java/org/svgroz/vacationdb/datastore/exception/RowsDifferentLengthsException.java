@@ -4,6 +4,9 @@ import org.svgroz.vacationdb.datastore.model.Row;
 
 import java.util.StringJoiner;
 
+/**
+ * @author Simon Grozovsky svgroz@outlook.com
+ */
 public class RowsDifferentLengthsException extends DataStoreException {
     private transient final Row first;
     private transient final Row second;

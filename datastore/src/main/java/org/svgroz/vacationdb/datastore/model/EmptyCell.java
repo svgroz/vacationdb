@@ -4,6 +4,8 @@ import java.util.StringJoiner;
 
 /**
  * Cell that represents empty values
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class EmptyCell implements Cell {
 

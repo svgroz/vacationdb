@@ -8,6 +8,8 @@ import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class Row implements Comparable<Row> {
     private final List<Cell> cells;

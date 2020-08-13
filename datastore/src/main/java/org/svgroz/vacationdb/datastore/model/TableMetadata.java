@@ -4,10 +4,24 @@ import org.svgroz.vacationdb.datastore.exception.*;
 
 import java.util.*;
 
+/**
+ * This class represent metadata information about table - columns, key indexes.
+ * Immutable and thread safe.
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
+ */
 public final class TableMetadata {
     private final List<Column> columns;
     private final KeyIndexesContainer keyIndexesContainer;
 
+    /**
+     * @param columns table columns, cannot be null, should have one key column at least
+     * @throws NullPointerException                if columns is null
+     * @throws EmptyColumnsException               if columns is empty
+     * @throws ColumnsContainsNullException        if columns contains null values
+     * @throws ColumnsContainsSameNamesException   if columns contains same names
+     * @throws ColumnsDoesNotContainsKeysException if columns does not contains key columns
+     */
     public TableMetadata(final List<Column> columns) {
         Objects.requireNonNull(columns, "columns is null");
         if (columns.isEmpty()) {
@@ -40,10 +54,16 @@ public final class TableMetadata {
         this.keyIndexesContainer = new KeyIndexesContainer(List.copyOf(keyIndexes));
     }
 
+    /**
+     * @return immutable list of columns {@link Column}
+     */
     public List<Column> getColumns() {
         return columns;
     }
 
+    /**
+     * @return key indexes container {@link KeyIndexesContainer}
+     */
     public KeyIndexesContainer getKeyIndexesContainer() {
         return keyIndexesContainer;
     }

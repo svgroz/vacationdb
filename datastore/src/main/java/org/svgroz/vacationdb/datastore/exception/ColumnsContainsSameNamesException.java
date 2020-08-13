@@ -5,6 +5,9 @@ import org.svgroz.vacationdb.datastore.model.Column;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * @author Simon Grozovsky svgroz@outlook.com
+ */
 public class ColumnsContainsSameNamesException extends DataStoreException {
     private final transient List<Column> columns;
 

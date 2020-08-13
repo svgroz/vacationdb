@@ -7,12 +7,14 @@ import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class DoubleCell implements TypedCell<Double> {
     private final Double value;
 
     /**
-     * @param value cannot be null
+     * @param value supposed to be not null
      * @throws NullPointerException if value is null
      */
     public DoubleCell(final Double value) {
@@ -30,15 +32,16 @@ public class DoubleCell implements TypedCell<Double> {
     }
 
     @Override
-    public int compareTo(final Cell o) {
-        if (EmptyCell.isEmpty(o)) {
+    public int compareTo(final Cell target) {
+        Objects.requireNonNull(target, "target is null");
+        if (EmptyCell.isEmpty(target)) {
             return 1;
         }
 
-        if (o instanceof DoubleCell) {
-            return value.compareTo(((DoubleCell) o).getValue());
+        if (target instanceof DoubleCell) {
+            return value.compareTo(((DoubleCell) target).getValue());
         } else {
-            throw new CellsTypeMismatchException(this, o);
+            throw new CellsTypeMismatchException(this, target);
         }
     }
 

@@ -7,6 +7,8 @@ import java.util.StringJoiner;
 
 /**
  * That class is null safety, thread safety, and immutable.
+ *
+ * @author Simon Grozovsky svgroz@outlook.com
  */
 public class BooleanCell implements TypedCell<Boolean> {
     private final Boolean value;
@@ -30,15 +32,16 @@ public class BooleanCell implements TypedCell<Boolean> {
     }
 
     @Override
-    public int compareTo(final Cell o) {
-        if (EmptyCell.isEmpty(o)) {
+    public int compareTo(final Cell target) {
+        Objects.requireNonNull(target, "target is null");
+        if (EmptyCell.isEmpty(target)) {
             return 1;
         }
 
-        if (o instanceof BooleanCell) {
-            return value.compareTo(((BooleanCell) o).getValue());
+        if (target instanceof BooleanCell) {
+            return value.compareTo(((BooleanCell) target).getValue());
         } else {
-            throw new CellsTypeMismatchException(this, o);
+            throw new CellsTypeMismatchException(this, target);
         }
     }
 

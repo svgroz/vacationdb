@@ -5,6 +5,9 @@ import org.svgroz.vacationdb.datastore.model.Cell;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * @author Simon Grozovsky svgroz@outlook.com
+ */
 public class MaxKeyIdIsBiggerThanCellsCountException extends DataStoreException {
     private final List<Integer> keyIndexes;
     private final List<Cell> cells;
