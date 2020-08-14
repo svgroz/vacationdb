@@ -17,7 +17,7 @@ class SchemaProducerImplTest {
 
         final String tableName = "FOO";
         final String columnName = "BAR";
-        final Column column = new Column(columnName, DataType.BOOLEAN, true);
+        final Column column = Column.of(columnName, DataType.BOOLEAN, true);
 
         TableMetadata table = new TableMetadata(
                 tableName,

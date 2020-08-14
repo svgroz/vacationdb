@@ -19,8 +19,8 @@ class TableMetadataTest {
                 () -> new TableMetadata(
                         "TABLEONE",
                         List.of(
-                                new Column("FOO", DataType.BOOLEAN, false),
-                                new Column("BAR", DataType.LONG, true)
+                                Column.of("FOO", DataType.BOOLEAN, false),
+                                Column.of("BAR", DataType.LONG, true)
                         )
                 )
         );
@@ -54,8 +54,8 @@ class TableMetadataTest {
                 () -> new TableMetadata(
                         "TABLENAME",
                         List.of(
-                                new Column("FOO", DataType.BOOLEAN, false),
-                                new Column("FOO", DataType.BOOLEAN, false)
+                                Column.of("FOO", DataType.BOOLEAN, false),
+                                Column.of("FOO", DataType.BOOLEAN, false)
                         )
                 )
         );

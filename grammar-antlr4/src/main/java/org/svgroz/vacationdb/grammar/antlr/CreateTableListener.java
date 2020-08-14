@@ -37,7 +37,7 @@ public class CreateTableListener extends VQLBaseListener {
             throw new UnsupportedColumnType(rawColumnType);
         }
 
-        Column column = new Column(
+        Column column = Column.of(
                 columnName,
                 dataType,
                 false

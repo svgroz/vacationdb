@@ -2,62 +2,32 @@ package org.svgroz.vacationdb.datastore.model.column;
 
 import org.svgroz.vacationdb.datastore.model.DataType;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 /**
- * That class is null safety, thread safety, and immutable.
- *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class Column {
-    private final String name;
-    private final DataType type;
-    private final boolean isKey;
+public interface Column {
+    /**
+     * @return name of columns
+     */
+    String getName();
 
     /**
-     * @param name cannot be null
-     * @param type cannot be null
+     * @return data type of columns
      */
-    public Column(final String name, final DataType type, final boolean isKey) {
-        this.name = Objects.requireNonNull(name, "name is null");
-        this.type = Objects.requireNonNull(type, "type is null");
-        this.isKey = isKey;
-    }
+    DataType getType();
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * @return true if column is the key
+     */
+    boolean isKey();
 
-    public DataType getType() {
-        return type;
-    }
-
-    public boolean isKey() {
-        return isKey;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Column)) return false;
-        final Column column = (Column) o;
-        return isKey == column.isKey &&
-                Objects.equals(name, column.name) &&
-                type == column.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, type, isKey);
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Column.class.getSimpleName() + "[", "]")
-                .add("name='" + name + "'")
-                .add("type=" + type)
-                .add("isKey=" + isKey)
-                .toString();
+    /**
+     * @param name  is the column name
+     * @param type  is the column type
+     * @param isKey is the column isKey flag
+     * @return instance of default column
+     */
+    static Column of(String name, DataType type, boolean isKey) {
+        return new DefaultColumn(name, type, isKey);
     }
 }

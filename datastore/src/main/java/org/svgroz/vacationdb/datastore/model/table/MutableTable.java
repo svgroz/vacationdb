@@ -2,6 +2,7 @@ package org.svgroz.vacationdb.datastore.model.table;
 
 import org.svgroz.vacationdb.datastore.model.row.Row;
 
+
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */

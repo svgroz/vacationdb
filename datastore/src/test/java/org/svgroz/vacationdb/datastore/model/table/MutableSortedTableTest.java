@@ -15,14 +15,14 @@ import java.util.List;
 class MutableSortedTableTest {
     @Test
     void tableArgumentsValidationPositive() {
-        final Column validColumn1 = new Column("name1", DataType.BOOLEAN, true);
-        final Column validColumn2 = new Column("name2", DataType.BOOLEAN, false);
+        final Column validColumn1 = Column.of("name1", DataType.BOOLEAN, true);
+        final Column validColumn2 = Column.of("name2", DataType.BOOLEAN, false);
         Assertions.assertDoesNotThrow(() -> new MutableSortedTable("foo", List.of(validColumn1, validColumn2)));
     }
 
     @Test
     void tableArgumentsValidationNegative() {
-        final Column validColumn = new Column("name", DataType.BOOLEAN, false);
+        final Column validColumn = Column.of("name", DataType.BOOLEAN, false);
         Assertions.assertThrows(NullPointerException.class, () -> new MutableSortedTable(null, List.of(validColumn)));
         Assertions.assertThrows(NullPointerException.class, () -> new MutableSortedTable("name", null));
         Assertions.assertThrows(EmptyColumnsException.class, () -> new MutableSortedTable("name", Collections.emptyList()));
