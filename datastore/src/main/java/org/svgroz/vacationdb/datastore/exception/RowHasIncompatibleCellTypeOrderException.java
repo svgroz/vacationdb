@@ -1,7 +1,7 @@
 package org.svgroz.vacationdb.datastore.exception;
 
 import org.svgroz.vacationdb.datastore.model.row.Row;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 
 import java.util.StringJoiner;
 
@@ -10,9 +10,9 @@ import java.util.StringJoiner;
  */
 public class RowHasIncompatibleCellTypeOrderException extends DataStoreException {
     private final transient Row row;
-    private final transient TableMetadata metadata;
+    private final transient ITableMetadata metadata;
 
-    public RowHasIncompatibleCellTypeOrderException(final Row row, final TableMetadata metadata) {
+    public RowHasIncompatibleCellTypeOrderException(final Row row, final ITableMetadata metadata) {
         this.row = row;
         this.metadata = metadata;
     }
@@ -21,7 +21,7 @@ public class RowHasIncompatibleCellTypeOrderException extends DataStoreException
         return row;
     }
 
-    public TableMetadata getMetadata() {
+    public ITableMetadata getMetadata() {
         return metadata;
     }
 

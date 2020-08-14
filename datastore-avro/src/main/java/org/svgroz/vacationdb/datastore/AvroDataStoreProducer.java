@@ -1,7 +1,7 @@
 package org.svgroz.vacationdb.datastore;
 
 import org.apache.avro.Schema;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ public class AvroDataStoreProducer implements DataStoreProducer {
     }
 
     @Override
-    public void createTable(final TableMetadata table) {
+    public void createTable(final ITableMetadata table) {
         final Schema schema = schemaProducer.createSchemaFromTableMetadata(
                 Objects.requireNonNull(table, "table is null")
         );

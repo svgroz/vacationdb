@@ -15,7 +15,7 @@ import java.util.StringJoiner;
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public class TableMetadata {
+final class TableMetadata implements ITableMetadata {
     private final String name;
     private final List<Column> columns;
 
@@ -27,7 +27,7 @@ public class TableMetadata {
      * @throws ColumnsContainsSameNamesException   if columns contains same names
      * @throws ColumnsDoesNotContainsKeysException if columns does not contains key columns
      */
-    public TableMetadata(final String name, final List<Column> columns) {
+    TableMetadata(final String name, final List<Column> columns) {
         this.name = Objects.requireNonNull(name, "name is null");
         Objects.requireNonNull(columns, "columns is null");
         if (columns.isEmpty()) {
@@ -58,10 +58,12 @@ public class TableMetadata {
         this.columns = List.copyOf(columns);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public List<Column> getColumns() {
         return columns;
     }

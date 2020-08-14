@@ -6,7 +6,7 @@ import org.svgroz.vacationdb.datastore.SchemaProducer;
 import org.svgroz.vacationdb.datastore.exception.UnsupportedColumnTypeException;
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -34,7 +34,7 @@ public class SchemaProducerImpl implements SchemaProducer {
      * @throws NullPointerException if table is null
      */
     @Override
-    public Schema createSchemaFromTableMetadata(final TableMetadata metadata) {
+    public Schema createSchemaFromTableMetadata(final ITableMetadata metadata) {
         Objects.requireNonNull(metadata, "metadata is null");
 
         final String recordName = metadata.getName();

@@ -2,7 +2,7 @@ package org.svgroz.vacationdb.grammar.antlr;
 
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 import org.svgroz.vacationdb.grammar.exception.UnsupportedColumnType;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.parser.VQLBaseListener;
@@ -48,7 +48,7 @@ public class CreateTableListener extends VQLBaseListener {
 
     public CreateTableExpression getCreateTableExpression() {
         return new CreateTableExpression(
-                new TableMetadata(
+                ITableMetadata.of(
                         tableName,
                         columns
                 )

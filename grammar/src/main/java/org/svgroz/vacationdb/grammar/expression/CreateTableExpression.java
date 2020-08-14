@@ -1,14 +1,14 @@
 package org.svgroz.vacationdb.grammar.expression;
 
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
 public class CreateTableExpression implements GeneralExpression {
-    private final TableMetadata table;
+    private final ITableMetadata table;
 
-    public CreateTableExpression(TableMetadata table) {
+    public CreateTableExpression(final ITableMetadata table) {
         this.table = Objects.requireNonNull(table, "table is null");
     }
 
@@ -17,7 +17,7 @@ public class CreateTableExpression implements GeneralExpression {
         return ExpressionType.CREATE_TABLE;
     }
 
-    public TableMetadata getTableMetadata() {
+    public ITableMetadata getTableMetadata() {
         return table;
     }
 

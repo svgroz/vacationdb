@@ -1,8 +1,8 @@
 package org.svgroz.vacationdb.datastore;
 
 import org.apache.avro.Schema;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
 
 public interface SchemaProducer {
-    Schema createSchemaFromTableMetadata(TableMetadata table);
+    Schema createSchemaFromTableMetadata(ITableMetadata table);
 }

@@ -22,7 +22,7 @@ import java.util.TreeSet;
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public class MutableSortedTable implements MutableTable {
-    private final TableMetadata metadata;
+    private final ITableMetadata metadata;
     private final TreeSet<Row> data;
 
     /**
@@ -38,7 +38,7 @@ public class MutableSortedTable implements MutableTable {
         Objects.requireNonNull(name, "name is null");
         Objects.requireNonNull(columns, "columns is null");
 
-        this.metadata = new TableMetadata(name, columns);
+        this.metadata = ITableMetadata.of(name, columns);
 
         final List<Integer> keyIndexes = new ArrayList<>();
 
