@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
-import org.svgroz.vacationdb.datastore.model.table.ITableMetadata;
+import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ class SchemaProducerImplTest {
         final String columnName = "BAR";
         final Column column = Column.of(columnName, DataType.BOOLEAN, true);
 
-        ITableMetadata table = ITableMetadata.of(
+        TableMetadata table = TableMetadata.of(
                 tableName,
                 List.of(column)
         );

@@ -11,12 +11,12 @@ import org.svgroz.vacationdb.datastore.model.column.Column;
 import java.util.ArrayList;
 import java.util.List;
 
-class TableMetadataTest {
+class DefaultTableMetadataTest {
 
     @Test
     void constructorPositive() {
-        TableMetadata TableMetadata = Assertions.assertDoesNotThrow(
-                () -> new TableMetadata(
+        DefaultTableMetadata DefaultTableMetadata = Assertions.assertDoesNotThrow(
+                () -> new DefaultTableMetadata(
                         "TABLEONE",
                         List.of(
                                 Column.of("FOO", DataType.BOOLEAN, false),
@@ -25,33 +25,33 @@ class TableMetadataTest {
                 )
         );
 
-        Assertions.assertNotNull(TableMetadata);
-        Assertions.assertNotNull(TableMetadata.getColumns());
-        Assertions.assertEquals(2, TableMetadata.getColumns().size());
-        Assertions.assertNotNull(TableMetadata.getColumns().get(0));
-        Assertions.assertEquals("FOO", TableMetadata.getColumns().get(0).getName());
-        Assertions.assertEquals(DataType.BOOLEAN, TableMetadata.getColumns().get(0).getType());
-        Assertions.assertNotNull(TableMetadata.getColumns().get(1));
-        Assertions.assertEquals("BAR", TableMetadata.getColumns().get(1).getName());
-        Assertions.assertEquals(DataType.LONG, TableMetadata.getColumns().get(1).getType());
+        Assertions.assertNotNull(DefaultTableMetadata);
+        Assertions.assertNotNull(DefaultTableMetadata.getColumns());
+        Assertions.assertEquals(2, DefaultTableMetadata.getColumns().size());
+        Assertions.assertNotNull(DefaultTableMetadata.getColumns().get(0));
+        Assertions.assertEquals("FOO", DefaultTableMetadata.getColumns().get(0).getName());
+        Assertions.assertEquals(DataType.BOOLEAN, DefaultTableMetadata.getColumns().get(0).getType());
+        Assertions.assertNotNull(DefaultTableMetadata.getColumns().get(1));
+        Assertions.assertEquals("BAR", DefaultTableMetadata.getColumns().get(1).getName());
+        Assertions.assertEquals(DataType.LONG, DefaultTableMetadata.getColumns().get(1).getType());
     }
 
     @Test
     void constructorNegative() {
-        Assertions.assertThrows(NullPointerException.class, () -> new TableMetadata(null, null));
-        Assertions.assertThrows(NullPointerException.class, () -> new TableMetadata("TABLENAME", null));
-        Assertions.assertThrows(EmptyColumnsException.class, () -> new TableMetadata("TABLENAME", List.of()));
+        Assertions.assertThrows(NullPointerException.class, () -> new DefaultTableMetadata(null, null));
+        Assertions.assertThrows(NullPointerException.class, () -> new DefaultTableMetadata("TABLENAME", null));
+        Assertions.assertThrows(EmptyColumnsException.class, () -> new DefaultTableMetadata("TABLENAME", List.of()));
         Assertions.assertThrows(
                 ColumnsContainsNullException.class,
                 () -> {
                     final ArrayList<Column> columns = new ArrayList<>();
                     columns.add(null);
-                    new TableMetadata("TABLENAME", columns);
+                    new DefaultTableMetadata("TABLENAME", columns);
                 }
         );
         Assertions.assertThrows(
                 ColumnsContainsSameNamesException.class,
-                () -> new TableMetadata(
+                () -> new DefaultTableMetadata(
                         "TABLENAME",
                         List.of(
                                 Column.of("FOO", DataType.BOOLEAN, false),
