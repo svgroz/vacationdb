@@ -38,15 +38,14 @@ final class LongCell implements TypedCell<Long> {
     @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
-        if (EmptyCell.isEmpty(target)) {
-            return 1;
-        }
 
         if (supportedType() == target.supportedType()) {
             return value.compareTo(((LongCell) target).getValue());
-        } else {
-            throw new CellsTypeMismatchException(this, target);
         }
+        if (Cell.isEmpty(target)) {
+            return 1;
+        }
+        throw new CellsTypeMismatchException(this, target);
     }
 
     @Override

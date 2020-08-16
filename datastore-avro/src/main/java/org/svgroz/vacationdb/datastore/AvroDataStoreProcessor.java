@@ -5,11 +5,11 @@ import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 
 import java.util.Objects;
 
-public class AvroDataStoreProducer implements DataStoreProducer {
+public class AvroDataStoreProcessor implements DataStoreProcessor {
 
     private final SchemaProducer schemaProducer;
 
-    public AvroDataStoreProducer(final SchemaProducer schemaProducer) {
+    public AvroDataStoreProcessor(final SchemaProducer schemaProducer) {
         this.schemaProducer = Objects.requireNonNull(schemaProducer, "schemaProducer is null");
     }
 

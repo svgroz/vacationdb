@@ -15,19 +15,23 @@ final class BooleanCell implements TypedCell<Boolean> {
 
     private static final DataType SUPPORTED_TYPE = DataType.BOOLEAN;
 
-    private final Boolean value;
+    static final BooleanCell INSTANCE_TRUE = new BooleanCell(true);
+
+    static final BooleanCell INSTANCE_FALSE = new BooleanCell(false);
+
+    private final boolean value;
 
     /**
      * @param value cannot be null
      * @throws NullPointerException if value is null
      */
-    BooleanCell(final Boolean value) {
-        this.value = Objects.requireNonNull(value, "value is null");
+    private BooleanCell(final boolean value) {
+        this.value = value;
     }
 
     @Override
     public Boolean getValue() {
-        return value;
+        return this == INSTANCE_TRUE;
     }
 
     @Override
@@ -38,15 +42,15 @@ final class BooleanCell implements TypedCell<Boolean> {
     @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
-        if (EmptyCell.isEmpty(target)) {
-            return 1;
+
+        if (target == INSTANCE_TRUE || target == INSTANCE_FALSE) {
+            return this == target ? 0 : (this == INSTANCE_TRUE ? 1 : -1);
         }
 
-        if (supportedType() == target.supportedType()) {
-            return value.compareTo(((BooleanCell) target).getValue());
-        } else {
-            throw new CellsTypeMismatchException(this, target);
+        if (Cell.isEmpty(target)) {
+            return 1;
         }
+        throw new CellsTypeMismatchException(this, target);
     }
 
     @Override
@@ -54,7 +58,7 @@ final class BooleanCell implements TypedCell<Boolean> {
         if (this == o) return true;
         if (!(o instanceof BooleanCell)) return false;
         final BooleanCell that = (BooleanCell) o;
-        return Objects.equals(value, that.value);
+        return value == that.value;
     }
 
     @Override

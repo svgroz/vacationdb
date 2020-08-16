@@ -2,6 +2,8 @@ package org.svgroz.vacationdb.datastore.model.cell;
 
 import org.svgroz.vacationdb.datastore.model.DataType;
 
+import java.util.Objects;
+
 /**
  * Basic cells interface
  *
@@ -19,7 +21,8 @@ public interface Cell extends Comparable<Cell> {
      * @return {@link BooleanCell}
      */
     static TypedCell<Boolean> of(Boolean value) {
-        return new BooleanCell(value);
+        Objects.requireNonNull(value, "value is null");
+        return value ? BooleanCell.INSTANCE_TRUE : BooleanCell.INSTANCE_FALSE;
     }
 
     /**

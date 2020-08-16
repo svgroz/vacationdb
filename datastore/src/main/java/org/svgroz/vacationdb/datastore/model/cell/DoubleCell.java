@@ -38,15 +38,17 @@ final class DoubleCell implements TypedCell<Double> {
     @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
+
+        if (supportedType() == target.supportedType()) {
+            return value.compareTo(((DoubleCell) target).getValue());
+        }
+
         if (EmptyCell.isEmpty(target)) {
             return 1;
         }
 
-        if (supportedType() == target.supportedType()) {
-            return value.compareTo(((DoubleCell) target).getValue());
-        } else {
-            throw new CellsTypeMismatchException(this, target);
-        }
+        throw new CellsTypeMismatchException(this, target);
+
     }
 
     @Override

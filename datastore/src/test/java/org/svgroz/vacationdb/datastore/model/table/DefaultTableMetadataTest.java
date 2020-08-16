@@ -15,7 +15,7 @@ class DefaultTableMetadataTest {
 
     @Test
     void constructorPositive() {
-        DefaultTableMetadata DefaultTableMetadata = Assertions.assertDoesNotThrow(
+        DefaultTableMetadata defaultTableMetadata = Assertions.assertDoesNotThrow(
                 () -> new DefaultTableMetadata(
                         "TABLEONE",
                         List.of(
@@ -25,15 +25,15 @@ class DefaultTableMetadataTest {
                 )
         );
 
-        Assertions.assertNotNull(DefaultTableMetadata);
-        Assertions.assertNotNull(DefaultTableMetadata.getColumns());
-        Assertions.assertEquals(2, DefaultTableMetadata.getColumns().size());
-        Assertions.assertNotNull(DefaultTableMetadata.getColumns().get(0));
-        Assertions.assertEquals("FOO", DefaultTableMetadata.getColumns().get(0).getName());
-        Assertions.assertEquals(DataType.BOOLEAN, DefaultTableMetadata.getColumns().get(0).getType());
-        Assertions.assertNotNull(DefaultTableMetadata.getColumns().get(1));
-        Assertions.assertEquals("BAR", DefaultTableMetadata.getColumns().get(1).getName());
-        Assertions.assertEquals(DataType.LONG, DefaultTableMetadata.getColumns().get(1).getType());
+        Assertions.assertNotNull(defaultTableMetadata);
+        Assertions.assertNotNull(defaultTableMetadata.getColumns());
+        Assertions.assertEquals(2, defaultTableMetadata.getColumns().size());
+        Assertions.assertNotNull(defaultTableMetadata.getColumns().get(0));
+        Assertions.assertEquals("FOO", defaultTableMetadata.getColumns().get(0).getName());
+        Assertions.assertEquals(DataType.BOOLEAN, defaultTableMetadata.getColumns().get(0).getType());
+        Assertions.assertNotNull(defaultTableMetadata.getColumns().get(1));
+        Assertions.assertEquals("BAR", defaultTableMetadata.getColumns().get(1).getName());
+        Assertions.assertEquals(DataType.LONG, defaultTableMetadata.getColumns().get(1).getType());
     }
 
     @Test

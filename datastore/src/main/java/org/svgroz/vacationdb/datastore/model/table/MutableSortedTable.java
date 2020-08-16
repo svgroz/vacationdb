@@ -7,6 +7,7 @@ import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 import org.svgroz.vacationdb.datastore.exception.RowDoesNotMatchTableWidth;
 import org.svgroz.vacationdb.datastore.exception.RowHasIncompatibleCellTypeOrderException;
 import org.svgroz.vacationdb.datastore.model.cell.Cell;
+import org.svgroz.vacationdb.datastore.model.cell.TypedCell;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 import org.svgroz.vacationdb.datastore.model.row.Row;
 import org.svgroz.vacationdb.datastore.model.row.RowComparator;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 /**
  * That class is null safety, thread safety, and immutable.
@@ -89,5 +91,13 @@ public class MutableSortedTable implements MutableTable {
         }
 
         return data.add(row);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Row> select() {
+        Column x;
+        Predicate<Cell> z = (cell) -> ((TypedCell<Boolean>) cell).getValue();
+
+        return List.copyOf(data);
     }
 }

@@ -19,7 +19,9 @@ public interface Column {
     /**
      * @return true if column is the key
      */
-    boolean isKey();
+    default boolean isKey() {
+        return false;
+    }
 
     /**
      * @param name  is the column name
@@ -28,6 +30,6 @@ public interface Column {
      * @return instance of default column
      */
     static Column of(String name, DataType type, boolean isKey) {
-        return new DefaultColumn(name, type, isKey);
+        return isKey ? new DefaultKeyColumn(name, type) : new DefaultColumn(name, type);
     }
 }

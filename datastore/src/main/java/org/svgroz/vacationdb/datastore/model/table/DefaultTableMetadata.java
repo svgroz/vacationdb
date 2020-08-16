@@ -6,10 +6,10 @@ import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysExcep
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.StringJoiner;
 
 /**
@@ -18,6 +18,7 @@ import java.util.StringJoiner;
 final class DefaultTableMetadata implements TableMetadata {
     private final String name;
     private final List<Column> columns;
+    private final Map<String, ExpandedColumn> expandedColumns;
 
     /**
      * @param columns table columns, cannot be null, should have one key column at least
@@ -34,28 +35,32 @@ final class DefaultTableMetadata implements TableMetadata {
             throw new EmptyColumnsException();
         }
 
-        final Set<String> uniqueNames = new HashSet<>();
+        final Map<String, ExpandedColumn> expandedColumns = new HashMap<>();
 
-        int keysCount = 0;
+        boolean containsKeys = false;
         for (int i = 0; i < columns.size(); i++) {
             Column column = columns.get(i);
             if (column == null) {
                 throw new ColumnsContainsNullException();
             }
 
-            if (!uniqueNames.add(column.getName())) {
+            if (expandedColumns.containsKey(column.getName())) {
                 throw new ColumnsContainsSameNamesException(columns);
             }
+
+            expandedColumns.put(column.getName(), new ExpandedColumn(i, column.isKey()));
+
             if (column.isKey()) {
-                keysCount = keysCount + 1;
+                containsKeys = true;
             }
         }
 
-        if (keysCount == 0) {
+        if (!containsKeys) {
             throw new ColumnsDoesNotContainsKeysException(columns);
         }
 
         this.columns = List.copyOf(columns);
+        this.expandedColumns = Map.copyOf(expandedColumns);
     }
 
     @Override
@@ -88,5 +93,37 @@ final class DefaultTableMetadata implements TableMetadata {
                 .add("name='" + name + "'")
                 .add("columns=" + columns)
                 .toString();
+    }
+
+    private static final class ExpandedColumn {
+        private final int index;
+        private final boolean isKey;
+
+        public ExpandedColumn(final int index, final boolean isKey) {
+            this.index = index;
+            this.isKey = isKey;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ExpandedColumn)) return false;
+            final ExpandedColumn that = (ExpandedColumn) o;
+            return index == that.index &&
+                    isKey == that.isKey;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(index, isKey);
+        }
+
+        @Override
+        public String toString() {
+            return new StringJoiner(", ", ExpandedColumn.class.getSimpleName() + "[", "]")
+                    .add("index=" + index)
+                    .add("isKey=" + isKey)
+                    .toString();
+        }
     }
 }

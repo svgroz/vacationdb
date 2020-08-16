@@ -56,8 +56,8 @@ class DoubleCellTest {
 
         Assertions.assertThrows(NullPointerException.class, () -> cell.compareTo(null));
 
-        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(new BooleanCell(true)));
-        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(new LongCell(0L)));
-        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(new StringCell("")));
+        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(Cell.of(true)));
+        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(Cell.of(0L)));
+        Assertions.assertThrows(CellsTypeMismatchException.class, () -> cell.compareTo(Cell.of("")));
     }
 }
