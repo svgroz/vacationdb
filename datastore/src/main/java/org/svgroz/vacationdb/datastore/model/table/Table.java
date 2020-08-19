@@ -5,6 +5,4 @@ package org.svgroz.vacationdb.datastore.model.table;
  */
 public interface Table {
     String getName();
-
-
 }

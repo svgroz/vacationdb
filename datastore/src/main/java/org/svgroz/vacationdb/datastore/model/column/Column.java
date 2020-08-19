@@ -27,7 +27,7 @@ public interface Column {
      * @param name  is the column name
      * @param type  is the column type
      * @param isKey is the column isKey flag
-     * @return instance of default column
+     * @return instance of column
      */
     static Column of(String name, DataType type, boolean isKey) {
         return isKey ? new DefaultKeyColumn(name, type) : new DefaultColumn(name, type);

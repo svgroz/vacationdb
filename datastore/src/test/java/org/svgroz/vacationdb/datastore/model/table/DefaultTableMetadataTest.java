@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsSupposedToBeOnlyInBeginning;
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
@@ -19,15 +20,16 @@ class DefaultTableMetadataTest {
                 () -> new DefaultTableMetadata(
                         "TABLEONE",
                         List.of(
-                                Column.of("FOO", DataType.BOOLEAN, false),
-                                Column.of("BAR", DataType.LONG, true)
+                                Column.of("FOO", DataType.BOOLEAN, true),
+                                Column.of("BAR", DataType.LONG, false),
+                                Column.of("BIZ", DataType.LONG, false)
                         )
                 )
         );
 
         Assertions.assertNotNull(defaultTableMetadata);
         Assertions.assertNotNull(defaultTableMetadata.getColumns());
-        Assertions.assertEquals(2, defaultTableMetadata.getColumns().size());
+        Assertions.assertEquals(3, defaultTableMetadata.getColumns().size());
         Assertions.assertNotNull(defaultTableMetadata.getColumns().get(0));
         Assertions.assertEquals("FOO", defaultTableMetadata.getColumns().get(0).getName());
         Assertions.assertEquals(DataType.BOOLEAN, defaultTableMetadata.getColumns().get(0).getType());
@@ -56,6 +58,18 @@ class DefaultTableMetadataTest {
                         List.of(
                                 Column.of("FOO", DataType.BOOLEAN, false),
                                 Column.of("FOO", DataType.BOOLEAN, false)
+                        )
+                )
+        );
+
+        Assertions.assertThrows(
+                ColumnsSupposedToBeOnlyInBeginning.class,
+                () -> new DefaultTableMetadata(
+                        "TABLENAME",
+                        List.of(
+                                Column.of("Z", DataType.BOOLEAN, true),
+                                Column.of("C", DataType.BOOLEAN, false),
+                                Column.of("U", DataType.BOOLEAN, true)
                         )
                 )
         );

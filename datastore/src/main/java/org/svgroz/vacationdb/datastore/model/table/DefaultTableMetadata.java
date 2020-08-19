@@ -3,6 +3,7 @@ package org.svgroz.vacationdb.datastore.model.table;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsSameNamesException;
 import org.svgroz.vacationdb.datastore.exception.ColumnsDoesNotContainsKeysException;
+import org.svgroz.vacationdb.datastore.exception.ColumnsSupposedToBeOnlyInBeginning;
 import org.svgroz.vacationdb.datastore.exception.EmptyColumnsException;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 
@@ -18,7 +19,7 @@ import java.util.StringJoiner;
 final class DefaultTableMetadata implements TableMetadata {
     private final String name;
     private final List<Column> columns;
-    private final Map<String, ExpandedColumn> expandedColumns;
+    private final Map<Column, Integer> columnIndexes;
 
     /**
      * @param columns table columns, cannot be null, should have one key column at least
@@ -35,32 +36,33 @@ final class DefaultTableMetadata implements TableMetadata {
             throw new EmptyColumnsException();
         }
 
-        final Map<String, ExpandedColumn> expandedColumns = new HashMap<>();
+        final Map<Column, Integer> columnIndexes = new HashMap<>();
 
-        boolean containsKeys = false;
+        int keysCount = 0;
         for (int i = 0; i < columns.size(); i++) {
             Column column = columns.get(i);
             if (column == null) {
                 throw new ColumnsContainsNullException();
             }
 
-            if (expandedColumns.containsKey(column.getName())) {
+            if (columnIndexes.put(column, i) != null) {
                 throw new ColumnsContainsSameNamesException(columns);
             }
 
-            expandedColumns.put(column.getName(), new ExpandedColumn(i, column.isKey()));
-
             if (column.isKey()) {
-                containsKeys = true;
+                if (keysCount - i != 0) {
+                    throw new ColumnsSupposedToBeOnlyInBeginning(columns);
+                }
+                keysCount = keysCount + 1;
             }
         }
 
-        if (!containsKeys) {
+        if (keysCount == 0) {
             throw new ColumnsDoesNotContainsKeysException(columns);
         }
 
         this.columns = List.copyOf(columns);
-        this.expandedColumns = Map.copyOf(expandedColumns);
+        this.columnIndexes = Map.copyOf(columnIndexes);
     }
 
     @Override
@@ -71,6 +73,12 @@ final class DefaultTableMetadata implements TableMetadata {
     @Override
     public List<Column> getColumns() {
         return columns;
+    }
+
+    @Override
+    public Integer indexOf(final Column column) {
+        Objects.requireNonNull(column, "column is null");
+        return columnIndexes.getOrDefault(column, -1);
     }
 
     @Override
@@ -93,37 +101,5 @@ final class DefaultTableMetadata implements TableMetadata {
                 .add("name='" + name + "'")
                 .add("columns=" + columns)
                 .toString();
-    }
-
-    private static final class ExpandedColumn {
-        private final int index;
-        private final boolean isKey;
-
-        public ExpandedColumn(final int index, final boolean isKey) {
-            this.index = index;
-            this.isKey = isKey;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ExpandedColumn)) return false;
-            final ExpandedColumn that = (ExpandedColumn) o;
-            return index == that.index &&
-                    isKey == that.isKey;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(index, isKey);
-        }
-
-        @Override
-        public String toString() {
-            return new StringJoiner(", ", ExpandedColumn.class.getSimpleName() + "[", "]")
-                    .add("index=" + index)
-                    .add("isKey=" + isKey)
-                    .toString();
-        }
     }
 }

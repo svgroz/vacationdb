@@ -31,14 +31,17 @@ final class DefaultKeyColumn implements KeyColumn {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof DefaultKeyColumn)) return false;
+
         final DefaultKeyColumn that = (DefaultKeyColumn) o;
-        return Objects.equals(name, that.name) &&
-                type == that.type;
+
+        return type == that.type && name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type);
+        int result = name.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
     }
 
     @Override

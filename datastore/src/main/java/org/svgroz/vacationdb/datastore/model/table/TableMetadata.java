@@ -20,6 +20,13 @@ public interface TableMetadata {
      */
     List<Column> getColumns();
 
+    /**
+     * @param column for index, supposed to be not null
+     * @return index of column or -1 if not found
+     * @throws NullPointerException if column is null
+     */
+    Integer indexOf(Column column);
+
     static TableMetadata of(final String tableName, final List<Column> columns) {
         return new DefaultTableMetadata(tableName, columns);
     }

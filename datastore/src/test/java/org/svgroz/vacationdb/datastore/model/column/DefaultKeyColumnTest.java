@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.model.DataType;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
