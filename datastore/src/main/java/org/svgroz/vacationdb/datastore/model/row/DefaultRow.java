@@ -1,10 +1,10 @@
 package org.svgroz.vacationdb.datastore.model.row;
 
+import org.eclipse.collections.api.list.ImmutableList;
 import org.svgroz.vacationdb.datastore.exception.CellsContainsNullException;
 import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
 import org.svgroz.vacationdb.datastore.model.cell.Cell;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -14,7 +14,7 @@ import java.util.StringJoiner;
  * @author Simon Grozovsky svgroz@outlook.com
  */
 final class DefaultRow implements Row {
-    private final List<Cell> cells;
+    private final ImmutableList<Cell> cells;
 
     /**
      * @param cells cannot be null and cannot contains null values itself
@@ -22,7 +22,7 @@ final class DefaultRow implements Row {
      * @throws EmptyCellsException        if cells is empty
      * @throws CellsContainsNullException if cells contains one or more null values
      */
-    DefaultRow(final List<Cell> cells) {
+    DefaultRow(final ImmutableList<Cell> cells) {
         Objects.requireNonNull(cells, "cells is null");
 
         if (cells.isEmpty()) {
@@ -35,11 +35,11 @@ final class DefaultRow implements Row {
             }
         }
 
-        this.cells = List.copyOf(cells);
+        this.cells = cells;
     }
 
     @Override
-    public List<Cell> getCells() {
+    public ImmutableList<Cell> getCells() {
         return cells;
     }
 

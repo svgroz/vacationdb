@@ -1,5 +1,7 @@
 package org.svgroz.vacationdb.grammar.antlr;
 
+import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.list.MutableList;
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
@@ -8,13 +10,11 @@ import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.parser.VQLBaseListener;
 import org.svgroz.vacationdb.parser.VQLParser;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class CreateTableListener extends VQLBaseListener {
     private String tableName;
-    private final List<Column> columns = new ArrayList<>();
+    private final MutableList<Column> columns = Lists.mutable.empty();
 
     @Override
     public void exitCreate_table_name(VQLParser.Create_table_nameContext ctx) {
@@ -50,7 +50,7 @@ public class CreateTableListener extends VQLBaseListener {
         return new CreateTableExpression(
                 TableMetadata.of(
                         tableName,
-                        columns
+                        columns.toImmutable()
                 )
         );
     }

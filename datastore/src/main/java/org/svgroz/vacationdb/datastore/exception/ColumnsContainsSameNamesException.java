@@ -1,21 +1,21 @@
 package org.svgroz.vacationdb.datastore.exception;
 
+import org.eclipse.collections.api.list.ImmutableList;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 
-import java.util.List;
 import java.util.StringJoiner;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public class ColumnsContainsSameNamesException extends DataStoreException {
-    private final transient List<Column> columns;
+    private final transient ImmutableList<Column> columns;
 
-    public ColumnsContainsSameNamesException(final List<Column> columns) {
+    public ColumnsContainsSameNamesException(final ImmutableList<Column> columns) {
         this.columns = columns;
     }
 
-    public List<Column> getColumns() {
+    public ImmutableList<Column> getColumns() {
         return columns;
     }
 

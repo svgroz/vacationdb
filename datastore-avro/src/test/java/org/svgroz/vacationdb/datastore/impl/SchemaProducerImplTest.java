@@ -1,13 +1,12 @@
 package org.svgroz.vacationdb.datastore.impl;
 
 import org.apache.avro.Schema;
+import org.eclipse.collections.api.factory.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
-
-import java.util.List;
 
 class SchemaProducerImplTest {
 
@@ -21,7 +20,7 @@ class SchemaProducerImplTest {
 
         TableMetadata table = TableMetadata.of(
                 tableName,
-                List.of(column)
+                Lists.immutable.of(column)
         );
 
         Schema schema = schemaProducer.createSchemaFromTableMetadata(table);

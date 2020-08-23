@@ -1,11 +1,11 @@
 package org.svgroz.vacationdb.datastore.model.row;
 
+import org.eclipse.collections.api.list.ImmutableList;
 import org.svgroz.vacationdb.datastore.exception.EmptyCellsException;
 import org.svgroz.vacationdb.datastore.exception.RowsDifferentLengthsException;
 import org.svgroz.vacationdb.datastore.model.cell.Cell;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -14,16 +14,16 @@ import java.util.StringJoiner;
  */
 public class RowComparator implements Comparator<Row> {
 
-    private final List<Integer> keyIndexes;
+    private final ImmutableList<Integer> keyIndexes;
 
-    public RowComparator(final List<Integer> keyIndexes) {
+    public RowComparator(final ImmutableList<Integer> keyIndexes) {
         this.keyIndexes = keyIndexes;
     }
 
     @Override
     public int compare(final Row first, final Row second) {
-        final List<Cell> firstColumns = first.getCells();
-        final List<Cell> secondColumns = second.getCells();
+        final ImmutableList<Cell> firstColumns = first.getCells();
+        final ImmutableList<Cell> secondColumns = second.getCells();
 
         if (firstColumns.size() != secondColumns.size()) {
             throw new RowsDifferentLengthsException(first, second);

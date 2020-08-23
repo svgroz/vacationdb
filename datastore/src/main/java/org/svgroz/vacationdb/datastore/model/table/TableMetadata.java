@@ -1,8 +1,7 @@
 package org.svgroz.vacationdb.datastore.model.table;
 
+import org.eclipse.collections.api.list.ImmutableList;
 import org.svgroz.vacationdb.datastore.model.column.Column;
-
-import java.util.List;
 
 /**
  * This interface contains behaviour of table metadata
@@ -16,9 +15,16 @@ public interface TableMetadata {
     String getName();
 
     /**
-     * @return not null, not empty, and validated columns
+     * @return count of columns in table
      */
-    List<Column> getColumns();
+    int columnsCount();
+
+    /**
+     * @param index of column
+     * @return column if found or empty
+     * @throws org.svgroz.vacationdb.datastore.exception.ColumnNotFoundByIndexException if column has not found
+     */
+    Column getColumnByIndex(int index);
 
     /**
      * @param column for index, supposed to be not null
@@ -27,7 +33,7 @@ public interface TableMetadata {
      */
     Integer indexOf(Column column);
 
-    static TableMetadata of(final String tableName, final List<Column> columns) {
+    static TableMetadata of(final String tableName, final ImmutableList<Column> columns) {
         return new DefaultTableMetadata(tableName, columns);
     }
 }

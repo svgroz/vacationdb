@@ -9,7 +9,6 @@ import org.svgroz.vacationdb.datastore.model.column.Column;
 import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -42,9 +41,11 @@ public class SchemaProducerImpl implements SchemaProducer {
         SchemaBuilder.FieldAssembler<Schema> fields = SchemaBuilder.record(recordName)
                 .fields();
 
-        List<Column> columns = metadata.getColumns();
 
-        for (Column column : columns) {
+
+        for (int i = 0; i < metadata.columnsCount(); i++) {
+            final Column column = metadata.getColumnByIndex(i);
+
             SchemaBuilder.FieldBuilder<Schema> fieldBuilder = fields.name(column.getName());
 
             var fieldBuilderFunction = classFunctionMap.get(column.getType());

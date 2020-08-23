@@ -1,5 +1,6 @@
 package org.svgroz.vacationdb.datastore.model.table;
 
+import org.eclipse.collections.api.factory.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.svgroz.vacationdb.datastore.exception.ColumnsContainsNullException;
@@ -10,7 +11,6 @@ import org.svgroz.vacationdb.datastore.model.DataType;
 import org.svgroz.vacationdb.datastore.model.column.Column;
 
 import java.util.ArrayList;
-import java.util.List;
 
 class DefaultTableMetadataTest {
 
@@ -19,7 +19,7 @@ class DefaultTableMetadataTest {
         DefaultTableMetadata defaultTableMetadata = Assertions.assertDoesNotThrow(
                 () -> new DefaultTableMetadata(
                         "TABLEONE",
-                        List.of(
+                        Lists.immutable.of(
                                 Column.of("FOO", DataType.BOOLEAN, true),
                                 Column.of("BAR", DataType.LONG, false),
                                 Column.of("BIZ", DataType.LONG, false)
@@ -28,34 +28,34 @@ class DefaultTableMetadataTest {
         );
 
         Assertions.assertNotNull(defaultTableMetadata);
-        Assertions.assertNotNull(defaultTableMetadata.getColumns());
-        Assertions.assertEquals(3, defaultTableMetadata.getColumns().size());
-        Assertions.assertNotNull(defaultTableMetadata.getColumns().get(0));
-        Assertions.assertEquals("FOO", defaultTableMetadata.getColumns().get(0).getName());
-        Assertions.assertEquals(DataType.BOOLEAN, defaultTableMetadata.getColumns().get(0).getType());
-        Assertions.assertNotNull(defaultTableMetadata.getColumns().get(1));
-        Assertions.assertEquals("BAR", defaultTableMetadata.getColumns().get(1).getName());
-        Assertions.assertEquals(DataType.LONG, defaultTableMetadata.getColumns().get(1).getType());
+        Assertions.assertEquals(3, defaultTableMetadata.columnsCount());
+        Column column1 = Assertions.assertDoesNotThrow(() -> defaultTableMetadata.getColumnByIndex(0));
+        Assertions.assertNotNull(column1);
+        Assertions.assertEquals("FOO", column1.getName());
+        Assertions.assertEquals(DataType.BOOLEAN, column1.getType());
+        Column column2 = Assertions.assertDoesNotThrow(() -> defaultTableMetadata.getColumnByIndex(1));
+        Assertions.assertEquals("BAR", column2.getName());
+        Assertions.assertEquals(DataType.LONG, column2.getType());
     }
 
     @Test
     void constructorNegative() {
         Assertions.assertThrows(NullPointerException.class, () -> new DefaultTableMetadata(null, null));
         Assertions.assertThrows(NullPointerException.class, () -> new DefaultTableMetadata("TABLENAME", null));
-        Assertions.assertThrows(EmptyColumnsException.class, () -> new DefaultTableMetadata("TABLENAME", List.of()));
+        Assertions.assertThrows(EmptyColumnsException.class, () -> new DefaultTableMetadata("TABLENAME", Lists.immutable.empty()));
         Assertions.assertThrows(
                 ColumnsContainsNullException.class,
                 () -> {
                     final ArrayList<Column> columns = new ArrayList<>();
                     columns.add(null);
-                    new DefaultTableMetadata("TABLENAME", columns);
+                    new DefaultTableMetadata("TABLENAME", Lists.immutable.ofAll(columns));
                 }
         );
         Assertions.assertThrows(
                 ColumnsContainsSameNamesException.class,
                 () -> new DefaultTableMetadata(
                         "TABLENAME",
-                        List.of(
+                        Lists.immutable.of(
                                 Column.of("FOO", DataType.BOOLEAN, false),
                                 Column.of("FOO", DataType.BOOLEAN, false)
                         )
@@ -66,7 +66,7 @@ class DefaultTableMetadataTest {
                 ColumnsSupposedToBeOnlyInBeginning.class,
                 () -> new DefaultTableMetadata(
                         "TABLENAME",
-                        List.of(
+                        Lists.immutable.of(
                                 Column.of("Z", DataType.BOOLEAN, true),
                                 Column.of("C", DataType.BOOLEAN, false),
                                 Column.of("U", DataType.BOOLEAN, true)
