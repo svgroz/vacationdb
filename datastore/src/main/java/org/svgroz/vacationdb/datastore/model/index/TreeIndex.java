@@ -1,38 +1,77 @@
 package org.svgroz.vacationdb.datastore.model.index;
 
 import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.factory.SortedSets;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.api.set.sorted.MutableSortedSet;
 import org.svgroz.vacationdb.datastore.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.model.index.tree.DataNode;
 import org.svgroz.vacationdb.datastore.model.index.tree.RootNode;
 import org.svgroz.vacationdb.datastore.model.row.Row;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.StringJoiner;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Supplier;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public class TreeIndex {
+    private static final Comparator<DataNode> DATA_NODE_COMPARATOR = Comparator.comparing(DataNode::getValue);
     private final AtomicReference<RootNode> root;
-    private final AtomicLong versionSequence = new AtomicLong(Long.MIN_VALUE);
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock(false);
+    private final Supplier<Long> versionSupplier;
+    private final AtomicInteger addedWithoutBlocking = new AtomicInteger(0);
+    private final AtomicInteger addedWithBlocking = new AtomicInteger(0);
 
-    public TreeIndex() {
-        this.root = new AtomicReference<>(new RootNode(versionSequence.getAndIncrement(), Lists.immutable.empty()));
+    public TreeIndex(final Supplier<Long> versionSupplier) {
+        this.versionSupplier = Objects.requireNonNull(versionSupplier, "versionSupplier is null");
+        this.root = new AtomicReference<>(new RootNode(versionSupplier.get(), Lists.immutable.empty()));
     }
 
     RootNode addNewValue(final Row row) {
-        final RootNode currentRoot = root.get();
 
-        for (; ; ) {
-            final RootNode rootNode = addNewValue(row, currentRoot);
-            if (root.compareAndSet(currentRoot, rootNode)) {
-                return rootNode;
+        readWriteLock.readLock().lock();
+        try {
+            boolean rootUpdated;
+            // TODO replace with constructor argument
+            int attempts = 20;
+
+            RootNode newRootNode;
+            do {
+                attempts = attempts - 1;
+                final RootNode currentRoot = root.get();
+                newRootNode = addNewValue(row, currentRoot);
+                rootUpdated = root.compareAndSet(currentRoot, newRootNode);
+            } while (attempts > 0 && !rootUpdated);
+
+            if (rootUpdated) {
+                addedWithoutBlocking.incrementAndGet();
+                return newRootNode;
             }
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+
+        readWriteLock.writeLock().lock();
+        try {
+            RootNode currentRoot;
+            RootNode newRootNode;
+            do {
+                currentRoot = root.get();
+                newRootNode = addNewValue(row, currentRoot);
+            } while (!root.compareAndSet(currentRoot, newRootNode));
+            addedWithBlocking.incrementAndGet();
+            return newRootNode;
+        } finally {
+            readWriteLock.writeLock().unlock();
         }
     }
 
@@ -45,7 +84,7 @@ public class TreeIndex {
         }
 
         return new RootNode(
-                versionSequence.incrementAndGet(),
+                versionSupplier.get(),
                 foo(rootNode.getChildren(), dataNode)
         );
 
@@ -56,10 +95,8 @@ public class TreeIndex {
         MutableList<DataNode> way = Lists.mutable.empty();
 
         for (; ; ) {
-            final Cell cellValue = value.getValue();
-            final Optional<DataNode> any = source.stream()
-                    .filter(c -> c.getValue().equals(cellValue))
-                    .findAny();
+            int index = source.binarySearch(value, DATA_NODE_COMPARATOR);
+            final Optional<DataNode> any = index > -1 ? Optional.of(source.get(index)) : Optional.empty();
 
             if (any.isEmpty() || value.getChildren().isEmpty()) {
                 break;
@@ -75,27 +112,54 @@ public class TreeIndex {
 
         for (int i = way.size() - 1; i >= 0; i--) {
             DataNode dataNode = way.get(i);
-            final Cell currentCellValue = stepNode.getValue();
-
-            Stream<DataNode> newChildrenStream = Stream.concat(
-                    dataNode.getChildren().stream().filter(c -> !c.getValue().equals(currentCellValue)),
-                    Stream.of(stepNode)
-            ).sorted(Comparator.comparing(DataNode::getValue));
 
             stepNode = new DataNode(
                     dataNode.getValue(),
-                    Lists.immutable.fromStream(newChildrenStream)
+                    replace(dataNode.getChildren(), stepNode)
             );
         }
 
-        final Cell currentCellValue = stepNode.getValue();
+        return replace(rootSource, stepNode);
+    }
 
-        return Lists.immutable.fromStream(
-                Stream.concat(
-                        rootSource.stream().filter(c -> !c.getValue().equals(currentCellValue)),
-                        Stream.of(stepNode)
-                ).sorted(Comparator.comparing(DataNode::getValue))
-        );
+    private ImmutableList<DataNode> replace(final ImmutableList<DataNode> dataNodes, final DataNode dataNode) {
+
+        MutableSortedSet<DataNode> result = SortedSets.mutable.withAll(DATA_NODE_COMPARATOR, dataNodes);
+        result.remove(dataNode);
+        result.add(dataNode);
+        return Lists.immutable.withAll(result);
+
+//        final MutableList<DataNode> result = Lists.mutable.withInitialCapacity(dataNodes.size() + 1);
+//        boolean dataNodeIsAdded = false;
+//        for (final DataNode node : dataNodes) {
+//            if (dataNodeIsAdded) {
+//                result.add(node);
+//            } else {
+//                final int compare = DATA_NODE_COMPARATOR.compare(node, dataNode);
+//                if (compare > 0) {
+//                    result.add(dataNode);
+//                    result.add(node);
+//                    dataNodeIsAdded = true;
+//                } else if (compare < 0) {
+//                    result.add(node);
+//                } else {
+//                    result.add(dataNode);
+//                    dataNodeIsAdded = true;
+//                }
+//            }
+//        }
+//        if (!dataNodeIsAdded) {
+//            result.add(dataNode);
+//        }
+//
+//        return result.toImmutable();
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", TreeIndex.class.getSimpleName() + "[", "]")
+                .add("addedWithoutBlocking=" + addedWithoutBlocking)
+                .add("addedWithBlocking=" + addedWithBlocking)
+                .toString();
     }
 }
-

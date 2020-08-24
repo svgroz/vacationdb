@@ -15,7 +15,7 @@ final class DoubleCell implements TypedCell<Double> {
 
     private static final DataType SUPPORTED_TYPE = DataType.DOUBLE;
 
-    private final Double value;
+    private final double value;
 
     /**
      * @param value supposed to be not null
@@ -40,7 +40,7 @@ final class DoubleCell implements TypedCell<Double> {
         Objects.requireNonNull(target, "target is null");
 
         if (supportedType() == target.supportedType()) {
-            return value.compareTo(((DoubleCell) target).getValue());
+            return Double.compare(value, ((DoubleCell) target).value);
         }
 
         if (EmptyCell.isEmpty(target)) {
@@ -56,7 +56,7 @@ final class DoubleCell implements TypedCell<Double> {
         if (this == o) return true;
         if (!(o instanceof DoubleCell)) return false;
         final DoubleCell that = (DoubleCell) o;
-        return Objects.equals(value, that.value);
+        return Double.compare(that.value, value) == 0;
     }
 
     @Override

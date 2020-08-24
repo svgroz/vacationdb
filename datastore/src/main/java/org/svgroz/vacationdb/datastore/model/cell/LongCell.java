@@ -15,7 +15,7 @@ final class LongCell implements TypedCell<Long> {
 
     private static final DataType SUPPORTED_TYPE = DataType.LONG;
 
-    private final Long value;
+    private final long value;
 
     /**
      * @param value cannot be null
@@ -40,7 +40,8 @@ final class LongCell implements TypedCell<Long> {
         Objects.requireNonNull(target, "target is null");
 
         if (supportedType() == target.supportedType()) {
-            return value.compareTo(((LongCell) target).getValue());
+            final LongCell that = (LongCell) target;
+            return Long.compare(that.value, value);
         }
         if (Cell.isEmpty(target)) {
             return 1;
@@ -53,7 +54,7 @@ final class LongCell implements TypedCell<Long> {
         if (this == o) return true;
         if (!(o instanceof LongCell)) return false;
         final LongCell longCell = (LongCell) o;
-        return Objects.equals(value, longCell.value);
+        return value == longCell.value;
     }
 
     @Override
