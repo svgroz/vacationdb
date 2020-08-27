@@ -30,6 +30,9 @@ subprojects {
             integrationTestImplementation project(path)
             integrationTestImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
             integrationTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+            testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+            testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
         }
 
         def integrationTestJarTask = tasks.register(sourceSets.integrationTest.jarTaskName, Jar) {
