@@ -2,9 +2,10 @@ package org.svgroz.vacationdb.grammar.antlr;
 
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.MutableList;
-import org.svgroz.vacationdb.datastore.model.DataType;
-import org.svgroz.vacationdb.datastore.model.column.Column;
-import org.svgroz.vacationdb.datastore.model.table.TableMetadata;
+import org.svgroz.vacationdb.datastore.api.model.DataType;
+import org.svgroz.vacationdb.datastore.api.model.column.Column;
+import org.svgroz.vacationdb.datastore.api.model.column.Columns;
+import org.svgroz.vacationdb.datastore.api.model.table.Tables;
 import org.svgroz.vacationdb.grammar.exception.UnsupportedColumnType;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.parser.VQLBaseListener;
@@ -37,10 +38,9 @@ public class CreateTableListener extends VQLBaseListener {
             throw new UnsupportedColumnType(rawColumnType);
         }
 
-        Column column = Column.of(
+        Column column = Columns.factory.of(
                 columnName,
-                dataType,
-                false
+                dataType
         );
 
         columns.add(column);
@@ -48,7 +48,7 @@ public class CreateTableListener extends VQLBaseListener {
 
     public CreateTableExpression getCreateTableExpression() {
         return new CreateTableExpression(
-                TableMetadata.of(
+                Tables.tableMetadataFactory.of(
                         tableName,
                         columns.toImmutable()
                 )

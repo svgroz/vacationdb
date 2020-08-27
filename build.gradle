@@ -2,33 +2,54 @@ plugins {
     id "org.sonarqube" version "2.7"
 }
 
-
-allprojects {
+subprojects {
     group 'org.svgroz.vacationdb'
     version '1.0-SNAPSHOT'
 
     repositories {
-        mavenCentral()
-    }
-}
-
-subprojects {
-    apply plugin: 'java'
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        jcenter()
     }
 
-    plugins.withType(JavaPlugin) {
+    plugins.withType(JavaPlugin).configureEach {
+        java {
+            modularity.inferModulePath = true
+        }
+
+        sourceSets {
+            integrationTest
+        }
+
+        configurations {
+            integrationTestImplementation.extendsFrom implementation
+            integrationTestRuntimeOnly.extendsFrom runtimeOnly
+        }
+
         dependencies {
             implementation group: 'org.eclipse.collections', name: 'eclipse-collections', version: '10.3.0'
 
-            testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+            integrationTestImplementation project(path)
+            integrationTestImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+            integrationTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
         }
 
-        test {
-            useJUnitPlatform()
+        def integrationTestJarTask = tasks.register(sourceSets.integrationTest.jarTaskName, Jar) {
+            archiveClassifier = 'integration-tests'
+            from sourceSets.integrationTest.output
         }
+        def integrationTestTask = tasks.register('integrationTest', Test) {
+            description = 'Runs integration tests.'
+            group = 'verification'
+
+            testClassesDirs = sourceSets.integrationTest.output.classesDirs
+            // Make sure we run the 'Jar' containing the tests (and not just the 'classes' folder) so that test resources are also part of the test module
+            classpath = configurations[sourceSets.integrationTest.runtimeClasspathConfigurationName] + files(integrationTestJarTask)
+            shouldRunAfter('test')
+        }
+
+        tasks.named('check') { dependsOn(integrationTestTask) }
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
     }
 }

@@ -2,8 +2,8 @@ package org.svgroz.vacationdb.grammar.antlr;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.svgroz.vacationdb.datastore.model.DataType;
-import org.svgroz.vacationdb.datastore.model.column.Column;
+import org.svgroz.vacationdb.datastore.api.model.DataType;
+import org.svgroz.vacationdb.datastore.api.model.column.Column;
 import org.svgroz.vacationdb.grammar.expression.CreateTableExpression;
 import org.svgroz.vacationdb.grammar.expression.ExpressionType;
 import org.svgroz.vacationdb.grammar.expression.GeneralExpression;

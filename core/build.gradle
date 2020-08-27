@@ -1,3 +1,14 @@
+plugins {
+    id 'application'
+}
+
 dependencies {
     implementation project(':grammar')
+    implementation project(':datastore-api')
+    implementation project(':datastore-impl')
+}
+
+application {
+    mainModule = 'org.svgroz.vacationdb'
+    mainClass = 'org.svgroz.vacationdb.Application'
 }
