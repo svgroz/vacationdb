@@ -12,6 +12,9 @@ subprojects {
 
     plugins.withType(JavaPlugin).configureEach {
         java {
+            sourceCompatibility = JavaVersion.VERSION_15
+            targetCompatibility = JavaVersion.VERSION_15
+
             modularity.inferModulePath = true
         }
 
@@ -52,7 +55,17 @@ subprojects {
         tasks.named('check') { dependsOn(integrationTestTask) }
     }
 
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += "--enable-preview"
+    }
+
     tasks.withType(Test).configureEach {
+        jvmArgs += "--enable-preview"
         useJUnitPlatform()
     }
+
+    tasks.withType(JavaExec) {
+        jvmArgs += '--enable-preview'
+    }
+
 }

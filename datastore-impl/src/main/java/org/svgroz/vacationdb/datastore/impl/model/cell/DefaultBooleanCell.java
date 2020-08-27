@@ -5,6 +5,7 @@ import org.svgroz.vacationdb.datastore.api.exception.CellsTypeMismatchException;
 import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.BooleanCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
+import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -14,9 +15,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-final class DefaultBooleanCell implements BooleanCell {
-
-    private static final DataType SUPPORTED_TYPE = DataType.BOOLEAN;
+public final class DefaultBooleanCell implements BooleanCell {
 
     static final DefaultBooleanCell INSTANCE_TRUE = new DefaultBooleanCell(true);
 
@@ -33,34 +32,27 @@ final class DefaultBooleanCell implements BooleanCell {
     }
 
     @Override
-    public Boolean getValue() {
+    public boolean getValue() {
         return this == INSTANCE_TRUE;
-    }
-
-    @Override
-    public DataType supportedType() {
-        return SUPPORTED_TYPE;
     }
 
     @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (target == INSTANCE_TRUE || target == INSTANCE_FALSE) {
-            return this == target ? 0 : (this == INSTANCE_TRUE ? 1 : -1);
-        }
-
-        if (DefaultEmptyCell.isEmpty(target)) {
+        if (target instanceof BooleanCell bc) {
+            return Boolean.compare(value, bc.getValue());
+        } else if (target instanceof EmptyCell) {
             return 1;
         }
+
         throw new CellsTypeMismatchException(this, target);
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultBooleanCell)) return false;
-        final DefaultBooleanCell that = (DefaultBooleanCell) o;
+        if (!(o instanceof DefaultBooleanCell that)) return false;
         return value == that.value;
     }
 

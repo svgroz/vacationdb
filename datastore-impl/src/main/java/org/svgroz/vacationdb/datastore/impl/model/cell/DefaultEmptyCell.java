@@ -1,6 +1,5 @@
 package org.svgroz.vacationdb.datastore.impl.model.cell;
 
-import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 
@@ -11,7 +10,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-final class DefaultEmptyCell implements EmptyCell {
+public final class DefaultEmptyCell implements EmptyCell {
 
     private static final DefaultEmptyCell INSTANCE = new DefaultEmptyCell();
 
@@ -23,21 +22,12 @@ final class DefaultEmptyCell implements EmptyCell {
     }
 
     @Override
-    public DataType supportedType() {
-        return DataType.EMPTY;
-    }
-
-    /**
-     * @param cell instance of {@link Cell }
-     * @return true if cell is empty
-     */
-    public static boolean isEmpty(Cell cell) {
-        return cell == INSTANCE;
-    }
-
-    @Override
     public int compareTo(final Cell o) {
-        return isEmpty(o) ? 0 : -1;
+        if (o instanceof EmptyCell) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override

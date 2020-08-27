@@ -4,7 +4,9 @@ import org.svgroz.vacationdb.datastore.api.exception.CellsTypeMismatchException;
 import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.cell.DoubleCell;
+import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 
+import java.security.spec.ECField;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -13,9 +15,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-final class DefaultDoubleCell implements DoubleCell {
-
-    private static final DataType SUPPORTED_TYPE = DataType.DOUBLE;
+public final class DefaultDoubleCell implements DoubleCell {
 
     private final double value;
 
@@ -33,19 +33,12 @@ final class DefaultDoubleCell implements DoubleCell {
     }
 
     @Override
-    public DataType supportedType() {
-        return SUPPORTED_TYPE;
-    }
-
-    @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (supportedType() == target.supportedType()) {
-            return Double.compare(value, ((DefaultDoubleCell) target).value);
-        }
-
-        if (DefaultEmptyCell.isEmpty(target)) {
+        if (target instanceof DoubleCell dc) {
+            return Double.compare(value, dc.getValue());
+        } else if (target instanceof EmptyCell) {
             return 1;
         }
 
@@ -56,8 +49,7 @@ final class DefaultDoubleCell implements DoubleCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultDoubleCell)) return false;
-        final DefaultDoubleCell that = (DefaultDoubleCell) o;
+        if (!(o instanceof DefaultDoubleCell that)) return false;
         return Double.compare(that.value, value) == 0;
     }
 

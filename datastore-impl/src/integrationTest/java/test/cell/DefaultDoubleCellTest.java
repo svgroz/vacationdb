@@ -20,7 +20,7 @@ class DefaultDoubleCellTest {
 
     @Test
     void supportedType() {
-        Assertions.assertEquals(DataType.DOUBLE, Cells.factory.of(0.0).supportedType());
+        Assertions.assertTrue(Cells.factory.of(0.0) instanceof DoubleCell);
     }
 
     @Test

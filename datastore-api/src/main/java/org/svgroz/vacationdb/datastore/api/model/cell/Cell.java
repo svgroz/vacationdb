@@ -1,16 +1,10 @@
 package org.svgroz.vacationdb.datastore.api.model.cell;
 
-import org.svgroz.vacationdb.datastore.api.model.DataType;
-
 /**
  * Basic cells interface
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public interface Cell extends Comparable<Cell> {
+public sealed interface Cell extends Comparable<Cell> permits BooleanCell, LongCell, DoubleCell, StringCell, EmptyCell {
 
-    /**
-     * @return supported type
-     */
-    DataType supportedType();
 }

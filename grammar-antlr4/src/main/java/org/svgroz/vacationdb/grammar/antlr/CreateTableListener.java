@@ -34,14 +34,23 @@ public class CreateTableListener extends VQLBaseListener {
             throw new UnsupportedColumnType(rawColumnType);
         }
 
-        if (DataType.EMPTY == dataType) {
-            throw new UnsupportedColumnType(rawColumnType);
+        Column column;
+        switch (dataType) {
+            case BOOLEAN:
+                column = Columns.regular.booleanOf(columnName);
+                break;
+            case LONG:
+                column = Columns.regular.longOf(columnName);
+                break;
+            case DOUBLE:
+                column = Columns.regular.doubleOf(columnName);
+                break;
+            case STRING:
+                column = Columns.regular.stringOf(columnName);
+                break;
+            default:
+                throw new UnsupportedColumnType(rawColumnType);
         }
-
-        Column column = Columns.factory.of(
-                columnName,
-                dataType
-        );
 
         columns.add(column);
     }

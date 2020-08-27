@@ -11,6 +11,7 @@ import org.svgroz.vacationdb.datastore.api.exception.ColumnsDoesNotContainsKeysE
 import org.svgroz.vacationdb.datastore.api.exception.ColumnsSupposedToBeOnlyInBeginning;
 import org.svgroz.vacationdb.datastore.api.exception.EmptyColumnsException;
 import org.svgroz.vacationdb.datastore.api.model.column.Column;
+import org.svgroz.vacationdb.datastore.api.model.column.KeyColumn;
 import org.svgroz.vacationdb.datastore.api.model.table.TableMetadata;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ final class DefaultTableMetadata implements TableMetadata {
                 throw new ColumnsContainsSameNamesException(columns);
             }
 
-            if (column.isKey()) {
+            if (column instanceof KeyColumn) {
                 if (keysCount - i != 0) {
                     throw new ColumnsSupposedToBeOnlyInBeginning(columns);
                 }

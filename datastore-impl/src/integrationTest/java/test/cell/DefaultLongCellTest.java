@@ -20,7 +20,7 @@ class DefaultLongCellTest {
 
     @Test
     void supportedType() {
-        Assertions.assertEquals(DataType.LONG, Cells.factory.of(0L).supportedType());
+        Assertions.assertTrue(Cells.factory.of(0L) instanceof LongCell);
     }
 
     @Test

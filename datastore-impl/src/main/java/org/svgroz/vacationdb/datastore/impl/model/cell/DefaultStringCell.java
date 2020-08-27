@@ -3,6 +3,7 @@ package org.svgroz.vacationdb.datastore.impl.model.cell;
 import org.svgroz.vacationdb.datastore.api.exception.CellsTypeMismatchException;
 import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
+import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.StringCell;
 
 import java.util.Objects;
@@ -13,9 +14,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-final class DefaultStringCell implements StringCell {
-
-    private static final DataType SUPPORTED_TYPE = DataType.STRING;
+public final class DefaultStringCell implements StringCell {
 
     private final String value;
 
@@ -32,29 +31,24 @@ final class DefaultStringCell implements StringCell {
         return value;
     }
 
-    @Override
-    public DataType supportedType() {
-        return SUPPORTED_TYPE;
-    }
 
     @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (supportedType() == target.supportedType()) {
-            return value.compareTo(((DefaultStringCell) target).getValue());
-        }
-        if (DefaultEmptyCell.isEmpty(target)) {
+        if (target instanceof StringCell sc) {
+            return value.compareTo(sc.getValue());
+        } else if (target instanceof EmptyCell) {
             return 1;
         }
+
         throw new CellsTypeMismatchException(this, target);
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultStringCell)) return false;
-        final DefaultStringCell that = (DefaultStringCell) o;
+        if (!(o instanceof DefaultStringCell that)) return false;
         return Objects.equals(value, that.value);
     }
 

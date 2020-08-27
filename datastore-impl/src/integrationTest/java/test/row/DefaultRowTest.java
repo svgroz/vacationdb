@@ -13,6 +13,7 @@ import java.util.Arrays;
 class DefaultRowTest {
     @Test
     void rowArgumentValidationPositive() {
+        Assertions.assertDoesNotThrow(() -> Rows.factory.of(Lists.immutable.empty()));
         Assertions.assertDoesNotThrow(() -> Rows.factory.of(Lists.immutable.of(Cells.factory.of(true))));
         Assertions.assertDoesNotThrow(() -> Rows.factory.of(Lists.immutable.of(Cells.factory.of(true), Cells.factory.empty()))
         );
@@ -20,7 +21,6 @@ class DefaultRowTest {
 
     @Test
     void rowArgumentValidationNegative() {
-        Assertions.assertThrows(EmptyCellsException.class, () -> Rows.factory.of(Lists.immutable.empty()));
         Assertions.assertThrows(CellsContainsNullException.class, () -> Rows.factory.of(
                 Lists.immutable.ofAll(
                         Arrays.asList(

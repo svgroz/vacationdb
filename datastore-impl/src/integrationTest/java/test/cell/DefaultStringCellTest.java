@@ -20,7 +20,7 @@ class DefaultStringCellTest {
 
     @Test
     void supportedType() {
-        Assertions.assertEquals(DataType.STRING, Cells.factory.of("0").supportedType());
+        Assertions.assertTrue(Cells.factory.of("0") instanceof StringCell);
     }
 
     @Test

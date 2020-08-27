@@ -4,6 +4,7 @@ import org.svgroz.vacationdb.datastore.api.model.cell.BooleanCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.cell.CellFactory;
 import org.svgroz.vacationdb.datastore.api.model.cell.DoubleCell;
+import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.LongCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.StringCell;
 
@@ -38,12 +39,12 @@ public class DefaultCellFactory implements CellFactory {
     }
 
     @Override
-    public Cell empty() {
+    public EmptyCell empty() {
         return DefaultEmptyCell.getInstance();
     }
 
     @Override
     public boolean isEmpty(final Cell cell) {
-        return DefaultEmptyCell.isEmpty(cell);
+        return cell instanceof EmptyCell;
     }
 }

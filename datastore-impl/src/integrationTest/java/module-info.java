@@ -1,3 +1,4 @@
+import org.svgroz.vacationdb.datastore.api.model.column.KeyColumnFactory;
 import org.svgroz.vacationdb.datastore.api.model.table.TableMetadataFactory;
 
 /**
@@ -11,7 +12,7 @@ open module org.svgroz.vacationdb.datastore.impl.test {
     requires org.svgroz.vacationdb.datastore.impl;
 
     uses org.svgroz.vacationdb.datastore.api.model.cell.CellFactory;
-    uses org.svgroz.vacationdb.datastore.api.model.column.ColumnFactory;
+    uses KeyColumnFactory;
     uses org.svgroz.vacationdb.datastore.api.model.row.RowFactory;
     uses org.svgroz.vacationdb.datastore.api.model.table.TableFactory;
     uses TableMetadataFactory;

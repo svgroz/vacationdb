@@ -19,6 +19,7 @@ import org.svgroz.vacationdb.datastore.api.exception.RowHasIncompatibleCellTypeO
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cells;
 import org.svgroz.vacationdb.datastore.api.model.column.Column;
+import org.svgroz.vacationdb.datastore.api.model.column.KeyColumn;
 import org.svgroz.vacationdb.datastore.api.model.row.Row;
 import org.svgroz.vacationdb.datastore.api.model.row.Rows;
 import org.svgroz.vacationdb.datastore.api.model.table.MutableTable;
@@ -59,7 +60,7 @@ public class MutableSortedTable implements MutableTable {
         final MutableList<Integer> keyIndexes = Lists.mutable.empty();
 
         for (int i = 0; i < metadata.columnsCount(); i++) {
-            if (metadata.getColumnByIndex(i).isKey()) {
+            if (metadata.getColumnByIndex(i) instanceof KeyColumn) {
                 keyIndexes.add(i);
             }
         }
@@ -97,11 +98,11 @@ public class MutableSortedTable implements MutableTable {
             final Cell cell = row.getCells().get(i);
             final Column column = metadata.getColumnByIndex(i);
 
-            if (!Cells.factory.isEmpty(cell) && column.getType() != cell.supportedType()) {
+            if (!Cells.factory.isEmpty(cell) && !column.isSupported(cell)) {
                 throw new RowHasIncompatibleCellTypeOrderException(row, metadata);
             }
 
-            if (column.isKey()) {
+            if (column instanceof KeyColumn) {
                 indexPart.add(cell);
             } else {
                 dataPart.add(cell);

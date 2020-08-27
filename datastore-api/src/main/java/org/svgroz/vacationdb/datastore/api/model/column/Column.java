@@ -1,25 +1,17 @@
 package org.svgroz.vacationdb.datastore.api.model.column;
 
-import org.svgroz.vacationdb.datastore.api.model.DataType;
+import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public interface Column {
+public sealed interface Column permits RegularColumn, KeyColumn {
     /**
      * @return name of columns
      */
     String getName();
 
-    /**
-     * @return data type of columns
-     */
-    DataType getType();
+    boolean isSupported(Cell cell);
 
-    /**
-     * @return true if column is the key
-     */
-    default boolean isKey() {
-        return false;
-    }
+    boolean isSupported(Class<? extends Cell> cellClass);
 }

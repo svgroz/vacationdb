@@ -3,6 +3,7 @@ package org.svgroz.vacationdb.datastore.impl.model.cell;
 import org.svgroz.vacationdb.datastore.api.exception.CellsTypeMismatchException;
 import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
+import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.LongCell;
 
 import java.util.Objects;
@@ -13,10 +14,7 @@ import java.util.StringJoiner;
  *
  * @author Simon Grozovsky svgroz@outlook.com
  */
-final class DefaultLongCell implements LongCell {
-
-    private static final DataType SUPPORTED_TYPE = DataType.LONG;
-
+public final class DefaultLongCell implements LongCell {
     private final long value;
 
     /**
@@ -33,20 +31,12 @@ final class DefaultLongCell implements LongCell {
     }
 
     @Override
-    public DataType supportedType() {
-        return SUPPORTED_TYPE;
-    }
-
-    @Override
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (supportedType() == target.supportedType()) {
-            final DefaultLongCell that = (DefaultLongCell) target;
-            return Long.compare(value, that.value);
-        }
-
-        if (DefaultEmptyCell.isEmpty(target)) {
+        if (target instanceof LongCell lc) {
+            return Long.compare(value, lc.getValue());
+        } else if (target instanceof EmptyCell) {
             return 1;
         }
 
@@ -56,8 +46,7 @@ final class DefaultLongCell implements LongCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultLongCell)) return false;
-        final DefaultLongCell defaultLongCell = (DefaultLongCell) o;
+        if (!(o instanceof DefaultLongCell defaultLongCell)) return false;
         return value == defaultLongCell.value;
     }
 

@@ -6,17 +6,28 @@ import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.row.Row;
 import org.svgroz.vacationdb.datastore.api.model.row.RowFactory;
 
+import java.util.Objects;
+
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
 public class DefaultRowFactory implements RowFactory {
+
+    private static final Row EMPTY_ROW = Lists.immutable::empty;
+
     @Override
     public Row of(final ImmutableList<Cell> cells) {
+        Objects.requireNonNull(cells, "cells is null");
+
+        if (cells.isEmpty()) {
+            return EMPTY_ROW;
+        }
+
         return new DefaultRow(cells);
     }
 
     @Override
     public Row of(final Cell... cells) {
-        return new DefaultRow(Lists.immutable.of(cells));
+        return of(Lists.immutable.of(cells));
     }
 }

@@ -1,7 +1,5 @@
 package org.svgroz.vacationdb.datastore.api.model.column;
 
-import org.svgroz.vacationdb.datastore.api.model.table.TableFactory;
-
 import java.util.ServiceLoader;
 
 /**
@@ -9,7 +7,9 @@ import java.util.ServiceLoader;
  */
 public final class Columns {
 
-    public static final ColumnFactory factory = ServiceLoader.load(ColumnFactory.class).findFirst().orElseThrow();
+    public static final KeyColumnFactory key = ServiceLoader.load(KeyColumnFactory.class).findFirst().orElseThrow();
+
+    public static final RegularColumnFactory regular = ServiceLoader.load(RegularColumnFactory.class).findFirst().orElseThrow();
 
     private Columns() {
 

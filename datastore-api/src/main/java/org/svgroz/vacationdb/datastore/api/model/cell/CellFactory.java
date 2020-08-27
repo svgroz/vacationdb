@@ -28,7 +28,7 @@ public interface CellFactory {
      */
     StringCell of(String value);
 
-    Cell empty();
+    EmptyCell empty();
 
     boolean isEmpty(Cell cell);
 }
