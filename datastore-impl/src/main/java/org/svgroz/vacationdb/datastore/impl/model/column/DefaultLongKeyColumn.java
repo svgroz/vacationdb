@@ -37,7 +37,8 @@ public final class DefaultLongKeyColumn implements LongKeyColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultLongKeyColumn that)) return false;
+        if (!(o instanceof DefaultLongKeyColumn)) return false;
+        final DefaultLongKeyColumn that = (DefaultLongKeyColumn) o;
         return Objects.equals(name, that.name);
     }
 

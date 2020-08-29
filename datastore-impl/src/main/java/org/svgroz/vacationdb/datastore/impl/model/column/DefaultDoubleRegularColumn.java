@@ -39,7 +39,8 @@ public final class DefaultDoubleRegularColumn implements DoubleRegularColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultDoubleRegularColumn that)) return false;
+        if (!(o instanceof DefaultDoubleRegularColumn)) return false;
+        final DefaultDoubleRegularColumn that = (DefaultDoubleRegularColumn) o;
         return Objects.equals(name, that.name);
     }
 

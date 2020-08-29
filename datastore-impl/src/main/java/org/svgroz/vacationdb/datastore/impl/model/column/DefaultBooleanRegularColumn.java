@@ -38,7 +38,8 @@ public final class DefaultBooleanRegularColumn implements BooleanRegularColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultBooleanRegularColumn that)) return false;
+        if (!(o instanceof DefaultBooleanRegularColumn)) return false;
+        final DefaultBooleanRegularColumn that = (DefaultBooleanRegularColumn) o;
         return Objects.equals(name, that.name);
     }
 

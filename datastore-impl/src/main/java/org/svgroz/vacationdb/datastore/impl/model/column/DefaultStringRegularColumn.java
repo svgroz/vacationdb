@@ -37,7 +37,8 @@ public final class DefaultStringRegularColumn implements StringRegularColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultStringRegularColumn that)) return false;
+        if (!(o instanceof DefaultStringRegularColumn)) return false;
+        final DefaultStringRegularColumn that = (DefaultStringRegularColumn) o;
         return Objects.equals(name, that.name);
     }
 

@@ -36,8 +36,8 @@ public final class DefaultDoubleCell implements DoubleCell {
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (target instanceof DoubleCell dc) {
-            return Double.compare(value, dc.getValue());
+        if (target instanceof DoubleCell) {
+            return Double.compare(value, ((DoubleCell) target).getValue());
         } else if (target instanceof EmptyCell) {
             return 1;
         }
@@ -49,7 +49,8 @@ public final class DefaultDoubleCell implements DoubleCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultDoubleCell that)) return false;
+        if (!(o instanceof DefaultDoubleCell)) return false;
+        final DefaultDoubleCell that = (DefaultDoubleCell) o;
         return Double.compare(that.value, value) == 0;
     }
 

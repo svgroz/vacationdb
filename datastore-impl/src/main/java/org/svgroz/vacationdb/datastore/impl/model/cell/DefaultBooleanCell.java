@@ -2,7 +2,6 @@ package org.svgroz.vacationdb.datastore.impl.model.cell;
 
 
 import org.svgroz.vacationdb.datastore.api.exception.CellsTypeMismatchException;
-import org.svgroz.vacationdb.datastore.api.model.DataType;
 import org.svgroz.vacationdb.datastore.api.model.cell.BooleanCell;
 import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 import org.svgroz.vacationdb.datastore.api.model.cell.EmptyCell;
@@ -40,8 +39,8 @@ public final class DefaultBooleanCell implements BooleanCell {
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (target instanceof BooleanCell bc) {
-            return Boolean.compare(value, bc.getValue());
+        if (target instanceof BooleanCell) {
+            return Boolean.compare(value, ((BooleanCell)target).getValue());
         } else if (target instanceof EmptyCell) {
             return 1;
         }
@@ -52,7 +51,8 @@ public final class DefaultBooleanCell implements BooleanCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultBooleanCell that)) return false;
+        if (!(o instanceof DefaultBooleanCell)) return false;
+        final DefaultBooleanCell that = (DefaultBooleanCell) o;
         return value == that.value;
     }
 

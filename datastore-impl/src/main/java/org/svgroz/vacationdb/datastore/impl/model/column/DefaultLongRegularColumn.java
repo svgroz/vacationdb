@@ -37,7 +37,8 @@ public final class DefaultLongRegularColumn implements LongRegularColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultLongRegularColumn that)) return false;
+        if (!(o instanceof DefaultLongRegularColumn)) return false;
+        final DefaultLongRegularColumn that = (DefaultLongRegularColumn) o;
         return Objects.equals(name, that.name);
     }
 

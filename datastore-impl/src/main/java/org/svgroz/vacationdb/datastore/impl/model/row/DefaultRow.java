@@ -47,8 +47,9 @@ final class DefaultRow implements Row {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultRow row)) return false;
-        return Objects.equals(cells, row.cells);
+        if (!(o instanceof DefaultRow)) return false;
+        final DefaultRow that = (DefaultRow) o;
+        return Objects.equals(cells, that.cells);
     }
 
     @Override

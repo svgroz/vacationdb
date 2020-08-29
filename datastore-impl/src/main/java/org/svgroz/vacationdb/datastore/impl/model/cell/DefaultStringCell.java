@@ -36,8 +36,8 @@ public final class DefaultStringCell implements StringCell {
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (target instanceof StringCell sc) {
-            return value.compareTo(sc.getValue());
+        if (target instanceof StringCell) {
+            return value.compareTo(((StringCell) target).getValue());
         } else if (target instanceof EmptyCell) {
             return 1;
         }
@@ -48,7 +48,8 @@ public final class DefaultStringCell implements StringCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultStringCell that)) return false;
+        if (!(o instanceof DefaultStringCell)) return false;
+        final DefaultStringCell that = (DefaultStringCell) o;
         return Objects.equals(value, that.value);
     }
 

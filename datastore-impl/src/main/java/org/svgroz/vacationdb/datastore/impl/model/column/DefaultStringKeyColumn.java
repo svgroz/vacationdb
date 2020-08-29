@@ -38,7 +38,8 @@ public final class DefaultStringKeyColumn implements StringKeyColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultStringKeyColumn that)) return false;
+        if (!(o instanceof DefaultStringKeyColumn)) return false;
+        final DefaultStringKeyColumn that = (DefaultStringKeyColumn) o;
         return Objects.equals(name, that.name);
     }
 

@@ -5,7 +5,7 @@ import org.svgroz.vacationdb.datastore.api.model.cell.Cell;
 /**
  * @author Simon Grozovsky svgroz@outlook.com
  */
-public sealed interface Column permits RegularColumn, KeyColumn {
+public interface Column {
     /**
      * @return name of columns
      */

@@ -34,8 +34,8 @@ public final class DefaultLongCell implements LongCell {
     public int compareTo(final Cell target) {
         Objects.requireNonNull(target, "target is null");
 
-        if (target instanceof LongCell lc) {
-            return Long.compare(value, lc.getValue());
+        if (target instanceof LongCell) {
+            return Long.compare(value, ((LongCell)target).getValue());
         } else if (target instanceof EmptyCell) {
             return 1;
         }
@@ -46,8 +46,9 @@ public final class DefaultLongCell implements LongCell {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultLongCell defaultLongCell)) return false;
-        return value == defaultLongCell.value;
+        if (!(o instanceof DefaultLongCell)) return false;
+        final DefaultLongCell that = (DefaultLongCell) o;
+        return value == that.value;
     }
 
     @Override

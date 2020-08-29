@@ -38,7 +38,8 @@ public final class DefaultDoubleKeyColumn implements DoubleKeyColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultDoubleKeyColumn that)) return false;
+        if (!(o instanceof DefaultDoubleKeyColumn)) return false;
+        final DefaultDoubleKeyColumn that = (DefaultDoubleKeyColumn) o;
         return Objects.equals(name, that.name);
     }
 

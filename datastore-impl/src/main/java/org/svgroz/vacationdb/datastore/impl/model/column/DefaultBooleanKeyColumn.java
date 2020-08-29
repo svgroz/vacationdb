@@ -39,7 +39,8 @@ public final class DefaultBooleanKeyColumn implements BooleanKeyColumn {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultBooleanKeyColumn that)) return false;
+        if (!(o instanceof DefaultBooleanKeyColumn)) return false;
+        final DefaultBooleanKeyColumn that = (DefaultBooleanKeyColumn) o;
         return Objects.equals(name, that.name);
     }
 
